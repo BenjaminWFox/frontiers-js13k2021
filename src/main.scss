@@ -1,0 +1,23 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  margin: 0;
+  padding: 0 10px;
+}
+
+#wrapper {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#cssImage {
+  width: 400px;
+  height: 200px;
+  background-image: url('./assets/images/sprites/game-image-3.png');
+}
