@@ -1,6 +1,9 @@
 import './main.scss'
 import { Person } from './person'
 import { randomIntFromTuple } from './util'
+import farmImg from '../src/assets/images/icons/corn.png'
+import mineImg from '../src/assets/images/icons/rock.png'
+import labsImg from '../src/assets/images/icons/labs.png'
 
 let sTick = 0
 let hsTick = 0
@@ -12,6 +15,9 @@ let labsCountEl
 let farmAmountEl
 let mineAmountEl
 let labsAmountEl
+let farmImgEl
+let mineImgEl
+let labsImgEl
 
 let villagers
 let assignments = {
@@ -24,6 +30,11 @@ let amounts = {
   farm: 0,
   mine: 0,
   labs: 0,
+}
+let images = {
+  farm: new Image(),
+  mine: new Image(),
+  labs: new Image(),
 }
 const coords = {
   spawn: [100, 400],
@@ -95,6 +106,16 @@ const init = () => {
   farmAmountEl = document.getElementById('farmAmount')
   mineAmountEl = document.getElementById('mineAmount')
   labsAmountEl = document.getElementById('labsAmount')
+  farmImgEl = document.getElementById('matFarm')
+  mineImgEl = document.getElementById('matMine')
+  labsImgEl = document.getElementById('matLabs')
+
+  farmImgEl.src = farmImg
+  mineImgEl.src = mineImg
+  labsImgEl.src = labsImg
+  images.farm.src = farmImg
+  images.mine.src = mineImg
+  images.labs.src = labsImg
 
   initJobButtons()
 }
@@ -102,7 +123,7 @@ const init = () => {
 const addVillager = (pos) => {
   const v = new Person()
 
-  v.init(coords, regions, addResource)
+  v.init(coords, regions, addResource, images)
   v.setPos(pos)
   v.setRegion('home')
   assignments.idle.push(v)

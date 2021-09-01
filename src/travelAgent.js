@@ -119,6 +119,4 @@ export function travelAgent(p) {
       }
     }
   }
-
-  
 }

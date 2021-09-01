@@ -1,6 +1,7 @@
 import { randomIntInclusive, randomIntFromTuple } from './util'
 import { travelAgent } from './travelAgent'
 
+
 const WORK_SPEED = 150
 const MOVE_SPEED = 3
 
@@ -270,12 +271,13 @@ export function Person() {
   this.coords
   this.regions
   this.destCoords
-  this.carrying = 'none'
+  this.carrying = ''
 
   this.draw = (tool = null) => {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.context.drawImage(this.body, 0, 0)
     this.context.drawImage(this.arms[this.armPos], 0, 0)
+
     if (tool) {
       this.context.drawImage(this.[tool][this.armPos], 0, 0)
     }
@@ -284,6 +286,11 @@ export function Person() {
     }
     else if (this.job === 'farm') {
       this.context.drawImage(this.hoe[this.armPos], 0, 0)
+    }
+
+    if (this.carrying) {
+      console.log('Draw carry', this.carrying)
+      this.context.drawImage(this.resourceImages[this.carrying], 17, 0)
     }
 
     this.drawFeet()
@@ -296,11 +303,12 @@ export function Person() {
     this.crouching ? this.context.drawImage(this.feet, x, 38) : this.context.drawImage(this.feet, x, 40)
   }
 
-  this.init = (worldCoordsObject, worldRegionsObject, worldAddResource) => {
+  this.init = (worldCoordsObject, worldRegionsObject, worldAddResource, worldResourceImages) => {
     this.coords = worldCoordsObject
     this.regions = worldRegionsObject
     this.regions.home.appendChild(this.canvas)
     this.addResource = worldAddResource
+    this.resourceImages = worldResourceImages
 
     this.body = createBody(this.skintone)
     this.feet = createFeet()
@@ -358,7 +366,8 @@ export function Person() {
         this.task = 'drop'
         this.destCoords = randomIntFromTuple(this.coords.drop)
         this.setArms('d')
-        this.carrying = this.job
+        this.carrying = this.job === 'idle' ? '' : this.job
+        this.draw()
         this.timesWorked = 0
       }
       else if (this.workTime + WORK_SPEED < time) {
@@ -489,6 +498,8 @@ export function Person() {
   this.doDrop = () => {
     console.log('do drop')
     this.addResource(this.carrying)
+    this.carrying = ''
+    this.draw()
     if (this.job !== 'idle') {
       this.destCoords = randomIntFromTuple(this.coords.job)
       this.task = 'work'
