@@ -35,6 +35,9 @@ export function travelAgent(p) {
         if (p.job === 'labs') {
           movePerson(p, 'labs', p.coords.jobBounds[0] - p.canvas.width, false)
         }
+        if (p.job === 'idle') {
+          movePerson(p, 'home', p.coords.homeBounds[0] - p.canvas.width, false)
+        }
       }
       break
     case 'travelRight':
@@ -47,6 +50,9 @@ export function travelAgent(p) {
         }
         if (p.job === 'labs') {
           movePerson(p, 'labs', p.coords.jobBounds[0] - p.canvas.width, true)
+        }
+        if (p.job === 'idle') {
+          movePerson(p, 'home', p.coords.homeBounds[1], false)
         }
       }
       if (p.faceDir === 'r' && p.pos > p.coords.travelBounds[1]) {
@@ -99,16 +105,20 @@ export function travelAgent(p) {
     }
   }
   
-  if (p.job !== 'idle' && p.task === 'drop' && p.region === 'home') {
+  if ((p.task === 'drop' || p.task === 'idle') && p.region === 'home') {
     if (p.faceDir === 'l') {
       if (p.pos + (p.canvas.width * .5) < p.destCoords) {
-        p.doDrop()
+        if (p.task === 'drop') p.doDrop()
+        if (p.job === 'idle') p.setWalking(false)
       }
     }
     else if (p.faceDir === 'r') {
       if (p.pos + (p.canvas.width * .5) > p.destCoords) {
-        p.doDrop()
+        if (p.task === 'drop') p.doDrop()
+        if (p.job === 'idle') p.setWalking(false)
       }
     }
   }
+
+  
 }

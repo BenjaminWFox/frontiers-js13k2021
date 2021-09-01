@@ -2,6 +2,7 @@ import { randomIntInclusive, randomIntFromTuple } from './util'
 import { travelAgent } from './travelAgent'
 
 const WORK_SPEED = 150
+const MOVE_SPEED = 3
 
 const EYES = [
   '#2cc342',
@@ -331,7 +332,7 @@ export function Person() {
     }
 
     if (this.walking) {
-      this.faceDir === 'r' ? this.setPos(this.pos + 2) : this.setPos(this.pos - 2)
+      this.faceDir === 'r' ? this.setPos(this.pos + (2 * MOVE_SPEED)) : this.setPos(this.pos - (2 * MOVE_SPEED))
 
       if (this.lastStepTime + 100 < time) {
         if (this.lastStepPos === 'f') {
@@ -433,11 +434,20 @@ export function Person() {
   }
 
   this.setJob = (j) => {
+    console.log('Set job', j, this.task)
     this.job = j
-    this.task = 'work'
+
+    if (j === 'idle' && this.task !== 'drop') {
+      this.destCoords = randomIntFromTuple(this.coords.homeBounds)
+      this.task = 'idle'
+    }
+    else if (j !== 'idle') {
+      this.task = 'work'
+      this.destCoords = randomIntFromTuple(this.coords.job)
+    }
+
     this.walking = true
-    this.draw()
-    this.destCoords = randomIntFromTuple(this.coords.job)
+    this.draw()    
   }
 
   this.setFaceDir = (d) => {
@@ -478,8 +488,13 @@ export function Person() {
 
   this.doDrop = () => {
     console.log('do drop')
-    this.addResource(this.job)
-    this.destCoords = randomIntFromTuple(this.coords.job)
-    this.task = 'work'
+    this.addResource(this.carrying)
+    if (this.job !== 'idle') {
+      this.destCoords = randomIntFromTuple(this.coords.job)
+      this.task = 'work'
+    }
+    else {
+      this.task = 'idle'
+    }
   }
 }

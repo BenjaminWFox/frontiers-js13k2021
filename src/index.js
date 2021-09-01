@@ -9,6 +9,9 @@ let qsTick = 0
 let farmCountEl
 let mineCountEl
 let labsCountEl
+let farmAmountEl
+let mineAmountEl
+let labsAmountEl
 
 let villagers
 let assignments = {
@@ -16,6 +19,11 @@ let assignments = {
   farm: [],
   mine: [],
   labs: [],
+}
+let amounts = {
+  farm: 0,
+  mine: 0,
+  labs: 0,
 }
 const coords = {
   spawn: [100, 400],
@@ -36,6 +44,8 @@ const regions = {
 
 const addResource = (r) => {
   console.log('Dropping resource', r)
+
+  amounts[r] += 10
 }
 
 const assign = (e) => {
@@ -82,6 +92,9 @@ const init = () => {
   farmCountEl = document.getElementById('farmCount')
   mineCountEl = document.getElementById('mineCount')
   labsCountEl = document.getElementById('labsCount')
+  farmAmountEl = document.getElementById('farmAmount')
+  mineAmountEl = document.getElementById('mineAmount')
+  labsAmountEl = document.getElementById('labsAmount')
 
   initJobButtons()
 }
@@ -100,8 +113,9 @@ const addVillager = (pos) => {
 const begin = () => {
   villagers = []
 
-  villagers.push(addVillager(200))
-  villagers.push(addVillager(300))
+  villagers.push(addVillager(randomIntFromTuple(coords.homeBounds)))
+  villagers.push(addVillager(randomIntFromTuple(coords.homeBounds)))
+  villagers.push(addVillager(randomIntFromTuple(coords.homeBounds)))
 
   villagers[1].setFaceDir('l')
 }
@@ -180,6 +194,9 @@ function play(time) {
     farmCountEl.innerHTML = assignments.farm.length
     mineCountEl.innerHTML = assignments.mine.length
     labsCountEl.innerHTML = assignments.labs.length
+    farmAmountEl.innerHTML = amounts.farm
+    mineAmountEl.innerHTML = amounts.mine
+    labsAmountEl.innerHTML = amounts.labs
   }
 
   villagers.forEach((v) => {
