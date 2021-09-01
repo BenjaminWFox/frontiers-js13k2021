@@ -169,6 +169,7 @@ const createFeet = (pCtx, offset = 0) => {
 
 export function Person() {
   this.canvas = document.createElement('canvas')
+  this.canvas.classList.add('villager')
   this.canvas.style.transition = 'bottom .15s'
   this.canvas.style.position = 'absolute'
   this.canvas.style.bottom = '2px'

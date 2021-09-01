@@ -28,6 +28,50 @@ h1 {
   border-bottom: 1px solid black;
 }
 
+.villager {
+  z-index: 500;
+}
+
+.background {
+  z-index: 10;
+  width: 100%;
+  position: absolute;
+}
+
+.sky {
+  background-color: skyblue;
+}
+
+.two .sky {
+  background-color: lightsteelblue;
+}
+
+.three .sky {
+  background-color: lightslategray;
+}
+
+.grass {
+  background-color: forestgreen;
+}
+
+.two .grass {
+  background-color: burlywood;
+}
+
+.three .grass {
+  background-color: gray;
+}
+
+.background.top {
+  top: 0px;
+  height: 45px;
+}
+
+.background.bottom {
+  top: 45px;
+  height: 21px;
+}
+
 .assignedCount {
   margin: 0 10px;
 }

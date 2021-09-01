@@ -12,6 +12,8 @@ let farmRegion
 let mineRegion
 let labsRegion
 
+let villagers
+
 const init = () => {
   homeRegion = document.getElementById('homeRegion')
   travelLeftRegion = document.getElementById('travelLeftRegion')
@@ -19,6 +21,25 @@ const init = () => {
   farmRegion = document.getElementById('farmRegion')
   mineRegion = document.getElementById('mineRegion')
   labsRegion = document.getElementById('labsRegion')
+}
+
+const addVillager = (pos) => {
+  const v = new Person()
+
+  v.init()
+  v.setPos(pos)
+  homeRegion.appendChild(v.canvas)
+
+  return v
+}
+
+const begin = () => {
+  villagers = []
+
+  villagers.push(addVillager(200))
+  villagers.push(addVillager(300))
+
+  villagers[1].setFaceDir('l')
 }
 
 /**
@@ -95,6 +116,9 @@ function play(time) {
 
   // DEBUG Only
   pDebug.update(time)
+  villagers.forEach((v) => {
+    v.update(time)
+  })
 
   window.requestAnimationFrame(play)
 }
@@ -105,5 +129,6 @@ window.onload = () => {
   // DEBUG Only
   assignDebug()
 
+  begin()
   play()
 }
