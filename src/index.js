@@ -34,6 +34,10 @@ const regions = {
   labs: '',
 }
 
+const addResource = (r) => {
+  console.log('Dropping resource', r)
+}
+
 const assign = (e) => {
   const [type, action] = e.target.id.split('-')
 
@@ -85,7 +89,7 @@ const init = () => {
 const addVillager = (pos) => {
   const v = new Person()
 
-  v.init(coords, regions)
+  v.init(coords, regions, addResource)
   v.setPos(pos)
   v.setRegion('home')
   assignments.idle.push(v)

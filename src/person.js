@@ -134,12 +134,12 @@ const createPick = (dir = 'd') => {
       ctx.fillRect(8, 1, 1, 14)
       break
     case 'b':
-      ctx.fillStyle = '#3c2601'
-      ctx.fillRect(13, 20, 11, 4)
+      // ctx.fillStyle = '#3c2601'
+      // ctx.fillRect(13, 20, 11, 4)
 
-      ctx.fillStyle = '#767676'
-      ctx.fillRect(10, 20, 3, 4)
-      ctx.fillRect(12, 24, 1, 1)
+      // ctx.fillStyle = '#767676'
+      // ctx.fillRect(10, 20, 3, 4)
+      // ctx.fillRect(12, 24, 1, 1)
 
       break
   }
@@ -158,38 +158,35 @@ const createHoe = (dir) => {
     default:
     case 'd':
       ctx.fillStyle = '#3c2601'
-      ctx.fillRect(24, 33, 15, 2)
+      ctx.fillRect(24, 33, 16, 2)
       ctx.fillRect(19, 33, 1, 2)
 
       ctx.fillStyle = '#767676'
-      ctx.fillRect(39, 33, 2, 2)
-      ctx.fillRect(41, 33, 2, 6)
+      ctx.fillRect(40, 33, 2, 6)
       break
     case 'f':
       ctx.fillStyle = '#3c2601'
-      ctx.fillRect(33, 9, 2, 11)
+      ctx.fillRect(33, 5, 2, 16)
       ctx.fillRect(33, 25, 2, 1)
 
       ctx.fillStyle = '#767676'
-      ctx.fillRect(28, 7, 12, 1)
-      ctx.fillRect(27, 8, 14, 1)
+      ctx.fillRect(33, 3, 6, 2)
       break
     case 'u':
       ctx.fillStyle = '#3c2601'
-      ctx.fillRect(9, 7, 11, 2)
+      ctx.fillRect(4, 7, 16, 2)
       ctx.fillRect(24, 7, 1, 2)
 
       ctx.fillStyle = '#767676'
-      ctx.fillRect(7, 2, 1, 12)
-      ctx.fillRect(8, 1, 1, 14)
+      ctx.fillRect(2, 4, 2, 5)
       break
     case 'b':
-      ctx.fillStyle = '#3c2601'
-      ctx.fillRect(13, 20, 11, 4)
+      // ctx.fillStyle = '#3c2601'
+      // ctx.fillRect(13, 20, 11, 4)
 
-      ctx.fillStyle = '#767676'
-      ctx.fillRect(10, 20, 3, 4)
-      ctx.fillRect(12, 24, 1, 1)
+      // ctx.fillStyle = '#767676'
+      // ctx.fillRect(10, 20, 3, 4)
+      // ctx.fillRect(12, 24, 1, 1)
 
       break
   }
@@ -252,6 +249,7 @@ export function Person() {
   this.walking = false
   this.jumping = false
   this.working = false
+  this.dropping = false
 
   /**
    * Value Trackers
@@ -271,6 +269,7 @@ export function Person() {
   this.coords
   this.regions
   this.destCoords
+  this.carrying = 'none'
 
   this.draw = (tool = null) => {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -279,6 +278,13 @@ export function Person() {
     if (tool) {
       this.context.drawImage(this.[tool][this.armPos], 0, 0)
     }
+    else if (this.job === 'mine') {
+      this.context.drawImage(this.pick[this.armPos], 0, 0)
+    }
+    else if (this.job === 'farm') {
+      this.context.drawImage(this.hoe[this.armPos], 0, 0)
+    }
+
     this.drawFeet()
   }
 
@@ -289,10 +295,11 @@ export function Person() {
     this.crouching ? this.context.drawImage(this.feet, x, 38) : this.context.drawImage(this.feet, x, 40)
   }
 
-  this.init = (worldCoordsObject, worldRegionsObject) => {
+  this.init = (worldCoordsObject, worldRegionsObject, worldAddResource) => {
     this.coords = worldCoordsObject
     this.regions = worldRegionsObject
     this.regions.home.appendChild(this.canvas)
+    this.addResource = worldAddResource
 
     this.body = createBody(this.skintone)
     this.feet = createFeet()
@@ -315,7 +322,7 @@ export function Person() {
       b: createHoe('b'),
     }
     this.setPos(0)
-    this.draw('pick')
+    this.draw()
   }
 
   this.update = (time) => {
@@ -346,7 +353,12 @@ export function Person() {
       if (this.timesWorked > 5) {
         this.working = false
         this.walking = true
+        this.dropping = true
         this.task = 'drop'
+        this.destCoords = randomIntFromTuple(this.coords.drop)
+        this.setArms('d')
+        this.carrying = this.job
+        this.timesWorked = 0
       }
       else if (this.workTime + WORK_SPEED < time) {
         const isUp = !(this.timesWorked % 2)
@@ -355,21 +367,21 @@ export function Person() {
           case 'mine':
             if (isUp) {
               this.setArms('u')
-              this.draw('pick')
+              this.draw()
             }
             else {
               this.setArms('f')
-              this.draw('pick')
+              this.draw()
             }
           break
           case 'farm':
             if (isUp) {
               this.setArms('f')
-              this.draw('hoe')
+              this.draw()
             }
             else {
               this.setArms('d')
-              this.draw('hoe')
+              this.draw()
             }
           break
           case 'labs':
@@ -424,6 +436,7 @@ export function Person() {
     this.job = j
     this.task = 'work'
     this.walking = true
+    this.draw()
     this.destCoords = randomIntFromTuple(this.coords.job)
   }
 
@@ -461,5 +474,12 @@ export function Person() {
     this.working = true
     this.timesWorked = 0
     this.workTime = 0
+  }
+
+  this.doDrop = () => {
+    console.log('do drop')
+    this.addResource(this.job)
+    this.destCoords = randomIntFromTuple(this.coords.job)
+    this.task = 'work'
   }
 }

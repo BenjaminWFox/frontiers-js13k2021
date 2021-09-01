@@ -98,4 +98,17 @@ export function travelAgent(p) {
       }
     }
   }
+  
+  if (p.job !== 'idle' && p.task === 'drop' && p.region === 'home') {
+    if (p.faceDir === 'l') {
+      if (p.pos + (p.canvas.width * .5) < p.destCoords) {
+        p.doDrop()
+      }
+    }
+    else if (p.faceDir === 'r') {
+      if (p.pos + (p.canvas.width * .5) > p.destCoords) {
+        p.doDrop()
+      }
+    }
+  }
 }
