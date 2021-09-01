@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <div class="debug">
+  <div class="debug" style="display: none;">
     <button id="dbgJump">JUMP</button>
     <button id="dbgArmDown">Arms DOWN</button>
     <button id="dbgArmOut">Arms OUT</button>
@@ -22,15 +22,72 @@
   </div>
   <div class="wrapper" style="max-width: 550px; margin: 0 auto;text-align: center;">
     <h1>HORIZONS</h1>
-    <div id="home" style="border: 2px solid black;height: 70px; position: relative;"></div>
-    <div style="display: flex; justify-content: space-between;margin-top:2%;">
-      <div style="border: 2px solid black;width: 49%;height: 70px; position: relative;"></div>
-      <div style="border: 2px solid black;width: 49%;height: 70px; position: relative;"></div>
+    <div class="matWrapper">
+      <div>
+        <img class="mat" src="../src/assets/images/icons/corn.png" />
+        <span>0</span>
+      </div>
+      <div>
+        <img class="mat" src="../src/assets/images/icons/rock.png" />
+        <span>0</span>
+      </div>
+      <div>
+        <img class="mat" src="../src/assets/images/icons/labs.png" />
+        <span>0</span>
+      </div>
+    </div>
+    <div id="homeRegion" style="border: 2px solid black;height: 70px; position: relative;">
+    </div>
+    <div id="" style="display: flex; justify-content: space-between;margin-top:2%;">
+      <div id="travelLeftRegion" style="border: 2px solid black;width: 49%;height: 70px; position: relative;"></div>
+      <div id="travelRightRegion" style="border: 2px solid black;width: 49%;height: 70px; position: relative;"></div>
     </div>
     <div style="display: flex; justify-content: space-between;margin-top:2%;">
-      <div style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
-      <div style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
-      <div style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
+      <div id="farmRegion" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
+      <div id="mineRegion" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
+      <div id="labsRegion" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
+    </div>
+    <div style="display: flex; justify-content: space-between;margin-top:2%;text-align: center;margin-bottom: 10px;">
+      <div style="width: 32%;"><button id="farmPlus" class="assignBtn">+</button> <span id="farmCount" class="assignedCount">0</span> <button id="farmMinus" class="assignBtn">–</button></div>
+      <div style="width: 32%;"><button id="minePlus" class="assignBtn">+</button> <span id="mineCount" class="assignedCount">0</span> <button id="mineMinus" class="assignBtn">–</button></div>
+      <div style="width: 32%;"><button id="labPlus" class="assignBtn">+</button> <span id="labCount" class="assignedCount">0</span> <button id="labMinus" class="assignBtn">–</button></div>
+    </div>
+    <div id="mainButtons">
+      <button class="mainBtn">
+        Recriut Villager - More People More Productivity!
+        <div class="costs">
+          <span class="cost"><img src="../src/assets/images/icons/corn.png">: 10</span>
+        </div>
+      </button>
+      <button class="mainBtn">
+        Recriut Villager - More People More Productivity!
+        <div class="costs">
+          <span class="cost"><img src="../src/assets/images/icons/rock.png">: 10</span>
+          <span class="cost"><img src="../src/assets/images/icons/labs.png">: 10</span>
+        </div>
+      </button>
+      <button class="mainBtn">
+        Something Something - Don't push this button...
+        <div class="costs">
+          <span class="cost"><img src="../src/assets/images/icons/corn.png">: 10</span>
+          <span class="cost"><img src="../src/assets/images/icons/rock.png">: 10</span>
+        </div>
+      </button>
+      <button class="mainBtn">
+        This other bit of things - Probably the best upgrade...
+        <div class="costs">
+          <span class="cost"><img src="../src/assets/images/icons/corn.png">: 10</span>
+          <span class="cost"><img src="../src/assets/images/icons/labs.png">: 10</span>
+        </div>
+      </button>
+      <button class="mainBtn">
+        Recriut Villager - More People More Productivity!
+        <div class="costs">
+          <span class="cost"><img src="../src/assets/images/icons/corn.png">: 10</span>
+          <span class="cost"><img src="../src/assets/images/icons/rock.png">: 10</span>
+          <span class="cost"><img src="../src/assets/images/icons/labs.png">: 10</span>
+        </div>
+      </button>
     </div>
   </div>
   <!-- <div id="jsImage"></div>

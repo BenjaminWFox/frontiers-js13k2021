@@ -1,9 +1,29 @@
-const createBody = () => {
+import { randomIntInclusive } from './util'
+
+const EYES = [
+  '#2cc342',
+  '#6ad7eb',
+  '#83766b',
+  '#231202',
+]
+
+const SKIN_TONES = [
+  { skin: '#fdf6ec', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#cd6550' },
+  { skin: '#ffe8ca', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#cd6550' },
+  { skin: '#ffdaa9', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#cd6550' },
+  { skin: '#d3a363', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#cd6550' },
+  { skin: '#b57a2b', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#f5beb3' },
+  { skin: '#764505', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#f5beb3' },
+  { skin: '#512f01', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#f5beb3' },
+  { skin: '#331e02', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#f5beb3' },
+]
+
+const createBody = (skintone) => {
   const bodyCanvas = document.createElement('canvas')
   const ctx = bodyCanvas.getContext('2d')
 
   // head
-  ctx.fillStyle = '#ffdaa9'
+  ctx.fillStyle = skintone.skin
   ctx.fillRect(18, 11, 8, 8)
 
   // torso
@@ -14,20 +34,20 @@ const createBody = () => {
   ctx.fillStyle = '#0129eb'
   ctx.fillRect(18, 31, 8, 9)
 
-  // eyes & mouth
-  ctx.fillStyle = '#000000'
+  // eyes
+  ctx.fillStyle = skintone.eye
   ctx.fillRect(23, 13, 2, 2)
   // pulil
   ctx.fillStyle = '#ffffff'
   ctx.fillRect(24, 14, 1, 1)
   // mouth
-  ctx.fillStyle = '#000000'
+  ctx.fillStyle = skintone.mouth
   ctx.fillRect(24, 17, 2, 1)
 
   return bodyCanvas
 }
 
-const createArms = (dir = 'd') => {
+const createArms = (dir = 'd', skintone) => {
   const armCanvas = document.createElement('canvas')
   const ctx = armCanvas.getContext('2d')
 
@@ -40,7 +60,7 @@ const createArms = (dir = 'd') => {
       ctx.fillStyle = '#fe6d12'
       ctx.fillRect(20, 21, 4, 11)
 
-      ctx.fillStyle = '#ffdaa9'
+      ctx.fillStyle = skintone.skin
       ctx.fillRect(20, 32, 4, 3)
       ctx.fillRect(24, 32, 1, 1)
       break
@@ -48,7 +68,7 @@ const createArms = (dir = 'd') => {
       ctx.fillStyle = '#fe6d12'
       ctx.fillRect(21, 21, 11, 4)
 
-      ctx.fillStyle = '#ffdaa9'
+      ctx.fillStyle = skintone.skin
       ctx.fillRect(32, 21, 3, 4)
       ctx.fillRect(32, 20, 1, 1)
       break
@@ -56,7 +76,7 @@ const createArms = (dir = 'd') => {
       ctx.fillStyle = '#fe6d12'
       ctx.fillRect(20, 10, 4, 11)
 
-      ctx.fillStyle = '#ffdaa9'
+      ctx.fillStyle = skintone.skin
       ctx.fillRect(20, 7, 4, 3)
       ctx.fillRect(19, 9, 1, 1)
       break
@@ -64,7 +84,7 @@ const createArms = (dir = 'd') => {
       ctx.fillStyle = '#fe6d12'
       ctx.fillRect(13, 20, 11, 4)
 
-      ctx.fillStyle = '#ffdaa9'
+      ctx.fillStyle = skintone.skin
       ctx.fillRect(10, 20, 3, 4)
       ctx.fillRect(12, 24, 1, 1)
 
@@ -169,6 +189,8 @@ export function Person() {
   this.jumpTime = 0
   this.faceDir = 'r'
   this.pos = 0
+  this.skintone = SKIN_TONES[randomIntInclusive(0, SKIN_TONES.length - 1)]
+  console.log(this.skintone)
 
   this.draw = () => {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -186,13 +208,13 @@ export function Person() {
   }
 
   this.init = () => {
-    this.body = createBody()
+    this.body = createBody(this.skintone)
     this.feet = createFeet()
     this.arms = {
-      u: createArms('u'),
-      f: createArms('f'),
-      d: createArms('d'),
-      b: createArms('b'),
+      u: createArms('u', this.skintone),
+      f: createArms('f', this.skintone),
+      d: createArms('d', this.skintone),
+      b: createArms('b', this.skintone),
     }
     this.pick = {
       u: createPick('u'),
