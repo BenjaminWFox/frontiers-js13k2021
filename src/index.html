@@ -3,7 +3,7 @@
 
 <head>
   <meta name="monetization" content="$coil.xrptipbot.com/[COIL-ID-HERE]">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=.75, user-scalable=no">
   <title>[js13Kgames]</title>
 </head>
 
@@ -20,19 +20,19 @@
     <button id="dbgStill">Still</button>
     <button id="dbgSwitchDir">Switch Dir</button>
   </div>
-  <div class="wrapper two" style="max-width: 550px; margin: 0 auto;text-align: center;">
+  <div class="wrapper" style="max-width: 550px; margin: 0 auto;text-align: center;">
     <h1>HORIZONS</h1>
     <div class="matWrapper">
       <div>
-        <img id="matFarm" class="mat" />
+        <img id="matFarm" class="mat px" />
         <span id="farmAmount">0</span>
       </div>
       <div>
-        <img id="matMine" class="mat" />
+        <img id="matMine" class="mat px" />
         <span id="mineAmount">0</span>
       </div>
       <div>
-        <img id="matLabs" class="mat" />
+        <img id="matLabs" class="mat px" />
         <span id="labsAmount">0</span>
       </div>
     </div>
@@ -48,20 +48,43 @@
       <div id="travelRightRegion" class="region" style="border: 2px solid black;width: 49%;height: 70px; position: relative;">
         <div class="background sky top"></div>
         <div class="background grass bottom"></div>
+        <div class="background full">
+          <!-- <img class="bg px" src="../src/assets/images/travel-river.png" /> -->
+          <img class="bg px" src="../src/assets/images/travel-river-bridged.png" />
+        </div>
       </div>
     </div>
     <div style="display: flex; justify-content: space-between;margin-top:2%;">
       <div id="farmRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;">
         <div class="background sky top"></div>
         <div class="background grass bottom"></div>
+        <div class="background full">
+          <img class="bg px" src="../src/assets/images/farmbg.png" />
+          <img class="px" style="position: absolute; bottom: 7px; left: 22px;" src="../src/assets/images/icons/corn.png" />
+          <img class="px" style="position: absolute; bottom: 18px; left: 62px;" src="../src/assets/images/icons/corn.png" />
+          <img class="px" style="position: absolute; bottom: 14px; left: 106px;" src="../src/assets/images/icons/corn.png" />
+          <img class="px" style="position: absolute; bottom: 9px; left: 156px;" src="../src/assets/images/icons/corn.png" />
+        </div>
       </div>
       <div id="mineRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;">
         <div class="background sky top"></div>
         <div class="background grass bottom"></div>
+        <div class="background full">
+          <img class="px" style="position: absolute; bottom: 7px; left: 42px; width: 27px;" src="../src/assets/images/icons/rock.png" />
+          <img class="px" style="position: absolute; bottom: 16px; left: 62px; width: 27px;" src="../src/assets/images/icons/rock.png" />
+          <img class="px" style="position: absolute; bottom: 18px; left: 85px; width: 27px;" src="../src/assets/images/icons/rock.png" />
+          <img class="px" style="position: absolute; bottom: 14px; left: 106px; width: 27px;" src="../src/assets/images/icons/rock.png" />
+          <img class="px" style="position: absolute; bottom: 9px; left: 126px; width: 27px;" src="../src/assets/images/icons/rock.png" />
+        </div>
       </div>
       <div id="labsRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;">
         <div class="background sky top"></div>
         <div class="background grass bottom"></div>
+        <div class="background full">
+          <img class="bg px" src="../src/assets/images/labbg.png" />
+          <img class="px" style="position: absolute; bottom: 16px; left: 62px;" src="../src/assets/images/icons/labs.png" />
+          <img class="px" style="position: absolute; bottom: 17px; left: 106px;" src="../src/assets/images/icons/labs.png" />
+        </div>
       </div>
     </div>
     <div style="display: flex; justify-content: space-between;margin-top:2%;text-align: center;margin-bottom: 10px;">
