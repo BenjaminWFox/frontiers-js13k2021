@@ -405,7 +405,7 @@ export function Person() {
             }  
           break
           default: break
-        }  
+        }
 
         this.timesWorked += 1
         this.workTime = time
