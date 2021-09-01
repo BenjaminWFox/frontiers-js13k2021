@@ -1,9 +1,8 @@
 import { randomIntInclusive, randomIntFromTuple } from './util'
 import { travelAgent } from './travelAgent'
 
-
 const WORK_SPEED = 150
-const MOVE_SPEED = 3
+const MOVE_SPEED = 1
 
 const EYES = [
   '#2cc342',
@@ -23,7 +22,20 @@ const SKIN_TONES = [
   { skin: '#331e02', eye: EYES[randomIntInclusive(0, EYES.length - 1)], mouth: '#f5beb3' },
 ]
 
-const createBody = (skintone) => {
+const TOPS = [
+  { main: '#cd7944', second: '#d59770' },
+  { main: '#d07373', second: '#e09999' },
+  { main: '#b16bcb', second: '#c99ed9' },
+  { main: '#d073a3', second: '#da9bbb' },
+]
+const BOTTOMS = [
+  '#446bcd',
+  '#6bc3cb',
+  '#d0cb73',
+  '#77cb6b',
+]
+
+const createBody = (skintone, tTone, bTone) => {
   const bodyCanvas = document.createElement('canvas')
   const ctx = bodyCanvas.getContext('2d')
 
@@ -32,11 +44,11 @@ const createBody = (skintone) => {
   ctx.fillRect(18, 11, 8, 8)
 
   // torso
-  ctx.fillStyle = '#eb5b01'
+  ctx.fillStyle = tTone.main
   ctx.fillRect(17, 19, 10, 12)
 
   // legs
-  ctx.fillStyle = '#0129eb'
+  ctx.fillStyle = bTone
   ctx.fillRect(18, 31, 8, 9)
 
   // eyes
@@ -52,7 +64,7 @@ const createBody = (skintone) => {
   return bodyCanvas
 }
 
-const createArms = (dir = 'd', skintone) => {
+const createArms = (dir = 'd', skintone, tTone) => {
   const armCanvas = document.createElement('canvas')
   const ctx = armCanvas.getContext('2d')
 
@@ -62,7 +74,7 @@ const createArms = (dir = 'd', skintone) => {
   switch (dir) {
     default:
     case 'd':
-      ctx.fillStyle = '#fe6d12'
+      ctx.fillStyle = tTone.second
       ctx.fillRect(20, 21, 4, 11)
 
       ctx.fillStyle = skintone.skin
@@ -70,7 +82,7 @@ const createArms = (dir = 'd', skintone) => {
       ctx.fillRect(24, 32, 1, 1)
       break
     case 'f':
-      ctx.fillStyle = '#fe6d12'
+      ctx.fillStyle = tTone.second
       ctx.fillRect(21, 21, 11, 4)
 
       ctx.fillStyle = skintone.skin
@@ -78,7 +90,7 @@ const createArms = (dir = 'd', skintone) => {
       ctx.fillRect(32, 20, 1, 1)
       break
     case 'u':
-      ctx.fillStyle = '#fe6d12'
+      ctx.fillStyle = tTone.second
       ctx.fillRect(20, 10, 4, 11)
 
       ctx.fillStyle = skintone.skin
@@ -86,7 +98,7 @@ const createArms = (dir = 'd', skintone) => {
       ctx.fillRect(19, 9, 1, 1)
       break
     case 'b':
-      ctx.fillStyle = '#fe6d12'
+      ctx.fillStyle = tTone.second
       ctx.fillRect(13, 20, 11, 4)
 
       ctx.fillStyle = skintone.skin
@@ -232,6 +244,8 @@ export function Person() {
    * Visual Settings
    */
   this.skintone = SKIN_TONES[randomIntInclusive(0, SKIN_TONES.length - 1)]
+  this.tTone = TOPS[randomIntInclusive(0, TOPS.length - 1)]
+  this.bTone = BOTTOMS[randomIntInclusive(0, BOTTOMS.length - 1)]
   this.armPos = 'd'
   this.faceDir = 'r'
 
@@ -310,13 +324,13 @@ export function Person() {
     this.addResource = worldAddResource
     this.resourceImages = worldResourceImages
 
-    this.body = createBody(this.skintone)
+    this.body = createBody(this.skintone, this.tTone, this.bTone)
     this.feet = createFeet()
     this.arms = {
-      u: createArms('u', this.skintone),
-      f: createArms('f', this.skintone),
-      d: createArms('d', this.skintone),
-      b: createArms('b', this.skintone),
+      u: createArms('u', this.skintone, this.tTone),
+      f: createArms('f', this.skintone, this.tTone),
+      d: createArms('d', this.skintone, this.tTone),
+      b: createArms('b', this.skintone, this.tTone),
     }
     this.pick = {
       u: createPick('u'),
@@ -383,7 +397,7 @@ export function Person() {
               this.setArms('f')
               this.draw()
             }
-          break
+            break
           case 'farm':
             if (isUp) {
               this.setArms('f')
@@ -393,7 +407,7 @@ export function Person() {
               this.setArms('d')
               this.draw()
             }
-          break
+            break
           case 'labs':
             if (isUp) {
               this.setArms('u')
@@ -402,8 +416,8 @@ export function Person() {
             else {
               this.setArms('f')
               this.draw()
-            }  
-          break
+            }
+            break
           default: break
         }
 
@@ -456,7 +470,7 @@ export function Person() {
     }
 
     this.walking = true
-    this.draw()    
+    this.draw()
   }
 
   this.setFaceDir = (d) => {
