@@ -36,29 +36,41 @@
         <span>0</span>
       </div>
     </div>
-    <div id="homeRegion" style="border: 2px solid black;height: 70px; position: relative;">
+    <div id="homeRegion" class="region" style="border: 2px solid black;height: 70px; position: relative;">
       <div class="background sky top"></div>
       <div class="background grass bottom"></div>
     </div>
     <div id="" style="display: flex; justify-content: space-between;margin-top:2%;">
-      <div id="travelLeftRegion" style="border: 2px solid black;width: 49%;height: 70px; position: relative;">
+      <div id="travelLeftRegion" class="region" style="border: 2px solid black;width: 49%;height: 70px; position: relative;">
         <div class="background sky top"></div>
         <div class="background grass bottom"></div>  
       </div>
-      <div id="travelRightRegion" style="border: 2px solid black;width: 49%;height: 70px; position: relative;">
+      <div id="travelRightRegion" class="region" style="border: 2px solid black;width: 49%;height: 70px; position: relative;">
         <div class="background sky top"></div>
         <div class="background grass bottom"></div>
       </div>
     </div>
     <div style="display: flex; justify-content: space-between;margin-top:2%;">
-      <div id="farmRegion" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
-      <div id="mineRegion" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
-      <div id="labsRegion" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
+      <div id="farmRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
+      <div id="mineRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
+      <div id="labsRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;"></div>
     </div>
     <div style="display: flex; justify-content: space-between;margin-top:2%;text-align: center;margin-bottom: 10px;">
-      <div style="width: 32%;"><button id="farmPlus" class="assignBtn">+</button> <span id="farmCount" class="assignedCount">0</span> <button id="farmMinus" class="assignBtn">–</button></div>
-      <div style="width: 32%;"><button id="minePlus" class="assignBtn">+</button> <span id="mineCount" class="assignedCount">0</span> <button id="mineMinus" class="assignBtn">–</button></div>
-      <div style="width: 32%;"><button id="labPlus" class="assignBtn">+</button> <span id="labCount" class="assignedCount">0</span> <button id="labMinus" class="assignBtn">–</button></div>
+      <div style="width: 32%;">
+        <button id="farm-add" class="assignBtn">+</button>
+        <span id="farmCount" class="assignedCount">0</span>
+        <button id="farm-sub" class="assignBtn">–</button>
+      </div>
+      <div style="width: 32%;">
+        <button id="mine-add" class="assignBtn">+</button>
+        <span id="mineCount" class="assignedCount">0</span>
+        <button id="mine-sub" class="assignBtn">–</button>
+      </div>
+      <div style="width: 32%;">
+        <button id="labs-add" class="assignBtn">+</button>
+        <span id="labsCount" class="assignedCount">0</span>
+        <button id="labs-sub" class="assignBtn">–</button>
+      </div>
     </div>
     <div id="mainButtons">
       <button class="mainBtn">

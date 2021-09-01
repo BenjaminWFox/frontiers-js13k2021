@@ -1,4 +1,5 @@
-import { randomIntInclusive } from './util'
+import { randomIntInclusive, randomIntFromTuple } from './util'
+import { travelAgent } from './travelAgent'
 
 const EYES = [
   '#2cc342',
@@ -168,6 +169,9 @@ const createFeet = (pCtx, offset = 0) => {
 }
 
 export function Person() {
+  /**
+   * Canvas * Context
+   */
   this.canvas = document.createElement('canvas')
   this.canvas.classList.add('villager')
   this.canvas.style.transition = 'bottom .15s'
@@ -176,22 +180,45 @@ export function Person() {
   this.canvas.width = 44
   this.canvas.height = 44
   this.context = this.canvas.getContext('2d')
+
+  /**
+   * Visual Settings
+   */
+  this.skintone = SKIN_TONES[randomIntInclusive(0, SKIN_TONES.length - 1)]
+  this.armPos = 'd'
+  this.faceDir = 'r'
+
+  /**
+   * Stored Images
+   */
   this.body
   this.arms
   this.feet
   this.pick
   this.hoe
-  this.armPos = 'd'
+
+  /**
+   * Action States
+   */
   this.crouching = false
   this.walking = false
+  this.jumping = false
+
+  /**
+   * Value Trackers
+   */
   this.lastStep = 0
   this.lastStepTime = 0
-  this.jumping = false
   this.jumpTime = 0
-  this.faceDir = 'r'
   this.pos = 0
-  this.skintone = SKIN_TONES[randomIntInclusive(0, SKIN_TONES.length - 1)]
-  console.log(this.skintone)
+  // idle, farm, mine, labs
+  this.job = 'idle'
+  // idle, goToWork, doWork, drop
+  this.task = 'idle'
+  // home, travelLeft, travelRight, farm, mine, labs
+  this.region = 'home'
+  this.coords
+  this.regions
 
   this.draw = () => {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -208,7 +235,11 @@ export function Person() {
     this.crouching ? this.context.drawImage(this.feet, x, 38) : this.context.drawImage(this.feet, x, 40)
   }
 
-  this.init = () => {
+  this.init = (worldCoordsObject, worldRegionsObject) => {
+    this.coords = worldCoordsObject
+    this.regions = worldRegionsObject
+    this.regions.home.appendChild(this.canvas)
+
     this.body = createBody(this.skintone)
     this.feet = createFeet()
     this.arms = {
@@ -237,6 +268,7 @@ export function Person() {
     if (this.jumping) {
       this.doJump(time)
     }
+
     if (this.walking) {
       this.faceDir === 'r' ? this.setPos(this.pos + 2) : this.setPos(this.pos - 2)
 
@@ -252,6 +284,8 @@ export function Person() {
 
         this.lastStepTime = time
       }
+
+      travelAgent(this)
     }
   }
 
@@ -263,6 +297,10 @@ export function Person() {
   this.setPos = (p) => {
     this.pos = p
     this.canvas.style.left = `${p}px`
+  }
+
+  this.setRegion = (r) => {
+    this.region = r
   }
 
   this.setArms = (dir) => {
@@ -278,6 +316,13 @@ export function Person() {
     if (!isWalking) {
       this.drawFeet()
     }
+  }
+
+  this.setJob = (j) => {
+    this.job = j
+    this.task = 'work'
+    this.walking = true
+    this.destCoords = randomIntFromTuple(this.coords.job)
   }
 
   this.setFaceDir = (d) => {

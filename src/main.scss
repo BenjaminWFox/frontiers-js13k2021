@@ -16,12 +16,6 @@ body {
   font-family: 'Courier New', Courier, monospace;
 }
 
-#cssImage {
-  width: 400px;
-  height: 200px;
-  background-image: url('./assets/images/sprites/game-image-3.png');
-}
-
 h1 {
   margin: 5px 0 10px;
   padding-bottom: 5px;
@@ -30,6 +24,10 @@ h1 {
 
 .villager {
   z-index: 500;
+}
+
+.region {
+  overflow: hidden;
 }
 
 .background {

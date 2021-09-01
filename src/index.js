@@ -1,34 +1,94 @@
 import './main.scss'
 import { Person } from './person'
+import { randomIntFromTuple } from './util'
 
 let sTick = 0
 let hsTick = 0
 let qsTick = 0
 
-let homeRegion
-let travelLeftRegion
-let travelRightRegion
-let farmRegion
-let mineRegion
-let labsRegion
+let farmCountEl
+let mineCountEl
+let labsCountEl
 
 let villagers
+let assignments = {
+  idle: [],
+  farm: [],
+  mine: [],
+  labs: [],
+}
+const coords = {
+  spawn: [100, 400],
+  drop: [260, 290],
+  job: [60, 116],
+  homeBounds: [0, 550],
+  travelBounds: [0, 270],
+  jobBounds: [0, 176],
+}
+const regions = {
+  home: '',
+  travelLeft: '',
+  travelRight: '',
+  farm: '',
+  mine: '',
+  labs: '',
+}
+
+const assign = (e) => {
+  const [type, action] = e.target.id.split('-')
+
+  switch (action) {
+    case 'add':
+      if (assignments.idle.length) {
+        const v = assignments.idle.shift()
+        const dest = randomIntFromTuple(coords.job)
+
+        v.setJob(type, dest)
+        assignments[type].push(v)
+      }
+      break
+    case 'sub':
+      if (assignments[type].length) {
+        const v = assignments[type].shift()
+
+        v.setJob('idle')
+        assignments.idle.push(v)
+      }
+      break
+    default:
+      break
+  }
+
+  console.log(type, action)
+}
+
+const initJobButtons = () => {
+  document.querySelectorAll('.assignBtn').forEach((button) => {
+    button.addEventListener('click', assign)
+  })
+}
 
 const init = () => {
-  homeRegion = document.getElementById('homeRegion')
-  travelLeftRegion = document.getElementById('travelLeftRegion')
-  travelRightRegion = document.getElementById('travelRightRegion')
-  farmRegion = document.getElementById('farmRegion')
-  mineRegion = document.getElementById('mineRegion')
-  labsRegion = document.getElementById('labsRegion')
+  regions.home = document.getElementById('homeRegion')
+  regions.travelLeft = document.getElementById('travelLeftRegion')
+  regions.travelRight = document.getElementById('travelRightRegion')
+  regions.farm = document.getElementById('farmRegion')
+  regions.mine = document.getElementById('mineRegion')
+  regions.labs = document.getElementById('labsRegion')
+  farmCountEl = document.getElementById('farmCount')
+  mineCountEl = document.getElementById('mineCount')
+  labsCountEl = document.getElementById('labsCount')
+
+  initJobButtons()
 }
 
 const addVillager = (pos) => {
   const v = new Person()
 
-  v.init()
+  v.init(coords, regions)
   v.setPos(pos)
-  homeRegion.appendChild(v.canvas)
+  v.setRegion('home')
+  assignments.idle.push(v)
 
   return v
 }
@@ -112,14 +172,20 @@ function play(time) {
 
   if (qsTick + 250 < time) {
     qsTick = time
+
+    farmCountEl.innerHTML = assignments.farm.length
+    mineCountEl.innerHTML = assignments.mine.length
+    labsCountEl.innerHTML = assignments.labs.length
   }
 
-  // DEBUG Only
-  pDebug.update(time)
   villagers.forEach((v) => {
     v.update(time)
   })
 
+  // DEBUG Only
+  pDebug.update(time)
+
+  // Loop
   window.requestAnimationFrame(play)
 }
 
