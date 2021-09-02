@@ -1,8 +1,6 @@
 import { randomIntInclusive, randomIntFromTuple } from './util'
 import { travelAgent } from './travelAgent'
-
-const WORK_SPEED = 150
-const MOVE_SPEED = 1
+import { settings } from './settings'
 
 const EYES = [
   '#2cc342',
@@ -354,7 +352,7 @@ export function Person() {
     }
 
     if (this.walking) {
-      this.faceDir === 'r' ? this.setPos(this.pos + (2 * MOVE_SPEED)) : this.setPos(this.pos - (2 * MOVE_SPEED))
+      this.faceDir === 'r' ? this.setPos(this.pos + (2 * settings.moveMod)) : this.setPos(this.pos - (2 * settings.moveMod))
 
       if (this.lastStepTime + 100 < time) {
         if (this.lastStepPos === 'f') {
@@ -384,7 +382,8 @@ export function Person() {
         this.draw()
         this.timesWorked = 0
       }
-      else if (this.workTime + WORK_SPEED < time) {
+      else if (this.workTime + (settings.workSpeed - settings.workMod) < time) {
+        console.log(settings.workSpeed, settings.workMod)
         const isUp = !(this.timesWorked % 2)
 
         switch (this.job) {

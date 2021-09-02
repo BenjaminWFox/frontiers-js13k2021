@@ -16,6 +16,11 @@ body {
   font-family: 'Courier New', Courier, monospace;
 }
 
+.wrapper.end > *:not(.lander) {
+  transition: opacity 1s;
+  opacity: 0;
+}
+
 .bg {
   width: 100%;
   height: 100%;
@@ -132,6 +137,10 @@ body {
   font-weight: bold;
 }
 
+#mainButtons {
+  position: relative;
+}
+
 .mainBtn {
   background-color: #eee;
   border: 1px black solid;
@@ -140,6 +149,15 @@ body {
   clear: both;
   display: block;
   cursor: pointer;
+  width: 100%;
+  position: relative;
+  opacity: 1;
+  transition: opacity .5s;
+}
+
+.mainBtn.hidden {
+  opacity: 0;
+  position: absolute;
   width: 100%;
 }
 

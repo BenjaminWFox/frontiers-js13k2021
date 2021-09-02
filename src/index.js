@@ -4,6 +4,7 @@ import { randomIntFromTuple } from './util'
 import farmImg from '../src/assets/images/icons/corn.png'
 import mineImg from '../src/assets/images/icons/rock.png'
 import labsImg from '../src/assets/images/icons/labs.png'
+import { settings } from './settings'
 
 /* eslint-disable */
 //! ZzFXM (v2.0.3) | (C) Keith Clark | MIT | https://github.com/keithclark/ZzFXM
@@ -33,7 +34,7 @@ const song = [[[, 0, 740, , , .15, 2, .2, -.1, -.15, 9, .02, , .1, .12, , .06], 
 // player.loop = true
 /* eslint-enable */
 
-let RECRUIT_MOD = 1
+let RECRUIT_MOD = 1.2
 
 let sTick = 0
 let hsTick = 0
@@ -51,7 +52,16 @@ let mineImgEl
 let labsImgEl
 let mainButtonsEl
 
+let recruitBtn
+let nutritionBtn
+let toolsBtn
+let backpacksBtn
+let propagandaBtn
+let upgradeBtn
+let colonizeBtn
+
 let villagers
+let eventButtons = []
 let assignments
 const resetAssignments = () => {
   assignments = {
@@ -64,9 +74,9 @@ const resetAssignments = () => {
 let amounts
 const resetAmounts = () => {
   amounts = {
-    farm: 0,
-    mine: 0,
-    labs: 0,
+    farm: 40,
+    mine: 40,
+    labs: 40,
   }
 }
 let images = {
@@ -91,12 +101,74 @@ const regions = {
   labs: '',
 }
 let events
+
+const BtnEvent = function(label, fn, cost) {
+  const { f = 0, m = 0, l = 0 } = cost
+
+  this.el = createButton(label, fn, cost)
+  this.cost = { f, m, l }
+  this.label = label
+  this.fn = fn
+  this.pay = () => {
+    if (amounts.farm < this.cost.f || amounts.mine < this.cost.m || amounts.labs < this.cost.l) {
+      return false
+    }
+    amounts.farm -= this.cost.f
+    amounts.mine -= this.cost.m
+    amounts.labs -= this.cost.l
+
+    return true
+  }
+  this.checkEnabled = () => {
+    console.log(amounts, this.cost)
+    if (amounts.farm < this.cost.f || amounts.mine < this.cost.m || amounts.labs < this.cost.l) {
+      console.log('Disabled')
+      this.el.disabled = true
+
+      return false
+    }
+
+    this.el.disabled = false
+
+    return true
+  }
+  this.checkEnabled()
+}
+
+const colonize = () => {
+  const wr = document.querySelector('.wrapper')
+
+  wr.classList.add('end')
+  events.colonize.el.classList.add('hidden')
+}
+
 const resetEvents = () => {
   events = {
-    recruit: false,
-    nutrition: false,
-    upgrade1: false,
-    upgrade2: false,
+    recruit: new BtnEvent('Recruit Villager - Do More with More!', recruitVillager, { f: 20 }),
+    nutrition: new BtnEvent('Nutrition & Fitness - Move Faster!', () => {
+      settings.moveMod += .5
+      events.nutrition.el.classList.add('hidden')
+    }, { f: 10, l: 10 }),
+    tools: new BtnEvent('Lighter, Stronger Tools - Work Harder!', () => {
+      settings.workMod += 100
+      events.tools.el.classList.add('hidden')
+}, { f: 20 }),
+    backpacks: new BtnEvent('Ergonomic Backpacks - Do More!', () => {
+      settings.resourceMod += 5
+      events.backpacks.el.classList.add('hidden')
+}, { f: 20 }),
+    propaganda: new BtnEvent('Motivational Propaganda - Be Better, Comrade!', () => {
+      settings.moveMod += .5
+      settings.workMod += 50
+      events.propaganda.el.classList.add('hidden')
+}, { f: 20 }),
+    upgrade: new BtnEvent('Advance Society - More Efficiency! More Progress!', () => {
+      settings.moveMod += .5
+      settings.workMod += 50
+      settings.resourceMod += 5
+      events.upgrade.el.classList.add('hidden')
+}, { f: 20 }),
+    colonize: new BtnEvent('Colonize New Planet - Goodbye World, Hello World!', colonize, { f: 20 }),
   }
 }
 
@@ -104,20 +176,65 @@ const updateResources = () => {
   farmAmountEl.innerHTML = amounts.farm
   mineAmountEl.innerHTML = amounts.mine
   labsAmountEl.innerHTML = amounts.labs
+
+  eventButtons.forEach((btn) => {
+    btn.checkEnabled()
+  })
 }
 
 const recruitVillager = () => {
-  if (amounts.farm >= 10) {
-    amounts.farm -= 10
+  if (events.recruit.pay()) {
+    events.recruit.cost.f = Math.round(events.recruit.cost.f * RECRUIT_MOD)
+    events.recruit.el.querySelector('.fCost').innerHTML = events.recruit.cost.f
     updateResources()
     addVillager()
   }
 }
 
+const createButtons = () => {
+  // toolsBtn = createButton('Lighter, Stronger, Faster Tools (Work Faster)', recruitVillager, 0, 30, 20)
+  // backpacksBtn = createButton('Fancy Backpacks (Carry More Stuff)', recruitVillager, 0, 40, 30)
+  // propagandaBtn = createButton('Motivational Propaganta (Even Faster Movement & Work)', recruitVillager, 0, 0, 50)
+  // upgradeBtn = createButton('Advance Society (Everything is Better!)', recruitVillager, 100, 100, 100)
+  // colonizeBtn = createButton('Colonize New Planet (Goodbye World, Hello World)', recruitVillager, 200, 200, 200)
+  
+  recruitBtn = events.recruit.el
+  eventButtons.push(events.recruit)
+  mainButtonsEl.appendChild(recruitBtn)
+  
+  nutritionBtn = events.nutrition.el
+  eventButtons.push(events.nutrition)
+  mainButtonsEl.appendChild(nutritionBtn)
+  
+  toolsBtn = events.tools.el
+  eventButtons.push(events.tools)
+  mainButtonsEl.appendChild(toolsBtn)
+  
+  backpacksBtn = events.backpacks.el
+  eventButtons.push(events.backpacks)
+  mainButtonsEl.appendChild(backpacksBtn)
+  
+  propagandaBtn = events.propaganda.el
+  eventButtons.push(events.propaganda)
+  mainButtonsEl.appendChild(propagandaBtn)
+  
+  upgradeBtn = events.upgrade.el
+  eventButtons.push(events.upgrade)
+  mainButtonsEl.appendChild(upgradeBtn)
+  
+  colonizeBtn = events.colonize.el
+  eventButtons.push(events.colonize)
+  mainButtonsEl.appendChild(colonizeBtn)
+  
+  // mainButtonsEl.appendChild(nutritionBtn)
+  // mainButtonsEl.appendChild(toolsBtn)
+  // mainButtonsEl.appendChild(backpacksBtn)
+  // mainButtonsEl.appendChild(propagandaBtn)
+  // mainButtonsEl.appendChild(upgradeBtn)
+  // mainButtonsEl.appendChild(colonizeBtn)
+}
+
 const checkEvents = () => {
-  if (amounts.farm >= 10) {
-    mainButtonsEl.appendChild(createButton('Recruit Villager', recruitVillager, 10))
-  }
   // Recruit Villager f: 10
 
   // Nutrition Guidelines: f: 30 l: 20 -> Faster Movement
@@ -135,13 +252,14 @@ const checkEvents = () => {
 const addResource = (r) => {
   console.log('Dropping resource', r)
 
-  amounts[r] += 10
+  amounts[r] += 10 + settings.resourceMod
 
   updateResources()
   checkEvents()
 }
 
-const createButton = (text, fn, f, m, l) => {
+const createButton = (text, fn, cost) => {
+  const { f = 0, m = 0, l = 0 } = cost
   const btn = document.createElement('button')
   const csts = document.createElement('div')
   const cst = document.createElement('span')
@@ -156,7 +274,7 @@ const createButton = (text, fn, f, m, l) => {
   if (f) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<img src="${farmImg}"/>: ${f}`
+    fel.innerHTML = `<img src="${farmImg}"/><span class="fCost">: ${f}</span>`
 
     csts.appendChild(fel)
   }
@@ -164,7 +282,7 @@ const createButton = (text, fn, f, m, l) => {
   if (m) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<img src="${mineImg}"/>: ${m}`
+    fel.innerHTML = `<img src="${mineImg}"/><span class="mCost">: ${m}</span>`
 
     csts.appendChild(fel)
   }
@@ -172,7 +290,7 @@ const createButton = (text, fn, f, m, l) => {
   if (l) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<img src="${labsImg}"/>: ${l}`
+    fel.innerHTML = `<img src="${labsImg}"/><span class="lCost">: ${l}</span>`
 
     csts.appendChild(fel)
   }
@@ -224,9 +342,9 @@ const initJobButtons = () => {
 
 const resetAll = () => {
   villagers = []
-  resetEvents()
-  resetAmounts()
   resetAssignments()
+  resetAmounts()
+  resetEvents()
 }
 
 const init = () => {
@@ -257,6 +375,7 @@ const init = () => {
   images.mine.src = mineImg
   images.labs.src = labsImg
 
+  createButtons()
   initJobButtons()
 }
 
