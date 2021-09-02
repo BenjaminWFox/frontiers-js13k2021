@@ -47,7 +47,12 @@ h1 {
   position: absolute;
 }
 
+.background.variant {
+  z-index: 15;
+}
+
 .full {
+  z-index: 20;
   top: 0;
   bottom: 0;
 }
