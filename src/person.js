@@ -464,7 +464,7 @@ export function Person() {
       this.destCoords = randomIntFromTuple(this.coords.homeBounds)
       this.task = 'idle'
     }
-    else if (j !== 'idle') {
+    else if (j !== 'idle' && this.task !== 'drop') {
       this.task = 'work'
       this.destCoords = randomIntFromTuple(this.coords.job)
     }
@@ -513,7 +513,8 @@ export function Person() {
     console.log('do drop')
     this.addResource(this.carrying)
     this.carrying = ''
-    this.draw()
+    this.jump()
+    // this.draw() // if not jumping
     if (this.job !== 'idle') {
       this.destCoords = randomIntFromTuple(this.coords.job)
       this.task = 'work'
