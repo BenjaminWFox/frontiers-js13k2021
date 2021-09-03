@@ -18,33 +18,34 @@ body {
 .ib { display: inline-block;}
 
 .wrapper {
-  background-color: #fff;
-  transition: background-color 1s, opacity 4s;
+  transition: opacity 4s;
   position: relative;
-  overflow: hidden;
   opacity: 1 !important;
-}
-
-.wrapper.end {
-  background-color: #000;
-  height: 100vh;
 }
 
 .wrapper #game {
   transition: opacity .25s;
+  opacity: 1;
+  position: relative;
+  z-index: 2;
 }
 
-.wrapper > .space {
-  opacity: 0;
+.space {
+  transition: opacity 1s;
+  background-color: #000;
+  overflow: hidden;
   position: absolute;
+  height: 100vh;
+  width: 100%;
+  z-index: 1;
 }
 
 .wrapper.end #game {
   opacity: 0;
 }
 
-.wrapper.end > .space {
-  opacity: 1;
+.end > .space {
+  opacity: 1 !important;
 }
 
 .space img, .ld img, .ldbg img {
@@ -53,6 +54,7 @@ body {
 }
 
 .shuttle {
+  position: absolute;
   transition: top 7s;
   top: 110vh;
   left: 350px;
@@ -60,6 +62,7 @@ body {
 }
 
 .ld {
+  position: absolute;
   transition: top 11s;
   top: -200vh;
   left: 140px;

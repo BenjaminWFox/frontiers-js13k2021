@@ -452,6 +452,7 @@ const startMusic = () => {
 
 window.onload = () => {
   document.addEventListener('click', startMusic)
+  
   const st = document.createElement('style')
   
   st.innerHTML = `

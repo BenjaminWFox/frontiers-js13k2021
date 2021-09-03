@@ -1,5 +1,5 @@
 {
-  "name": "GAME NAME",
+  "name": "FRONTIERS",
   "description": "A rad description of your game.",
   "images" : {
     "image_large": "image_large.png",
@@ -8,7 +8,7 @@
   "categories": [],
   "_delete-categories-list": ["Desktop", "Mobile", "Web Monetization", "Server", "WebXR"],
   "user" : {
-    "name": "YOUR NAME",
-    "website": "YOUR WEBSITE"
+    "name": "Benjamin Fox",
+    "website": "http://benjaminwfox.com/"
   }
 }

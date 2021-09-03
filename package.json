@@ -1,7 +1,7 @@
 {
-  "name": "js13kgames-webpack-boilerplate-2020",
+  "name": "frontiers-benfox-js13kgames-2021",
   "version": "1.0.0",
-  "description": "A tiny javascript game",
+  "description": "Frontiers | A tiny javascript game by Benjamin Fox",
   "main": "index.js",
   "scripts": {
     "develop": "webpack-dev-server --config webpack.dev.js",
