@@ -243,7 +243,8 @@ HOUSE STUFF:
   transition: opacity 1s, background-image 1s, top 1s;
   width: 54px;
   height: 49px;
-  background-image: url(../src/assets/images/house.png);
+  background-image: url(../src/assets/images/housesm.png);
+  background-size: contain;
 }
 .adv .l {
   background-image: url(../src/assets/images/apts.png);
