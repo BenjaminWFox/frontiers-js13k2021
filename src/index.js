@@ -52,17 +52,10 @@ let mineImgEl
 let labsImgEl
 let mainButtonsEl
 
-let recruitBtn
-let nutritionBtn
-let toolsBtn
-let backpacksBtn
-let propagandaBtn
-let upgradeBtn
-let colonizeBtn
-
 let villagers
 let eventButtons = []
 let assignments
+
 const resetAssignments = () => {
   assignments = {
     idle: [],
@@ -121,9 +114,7 @@ const BtnEvent = function (label, fn, cost, showFn = () => false) {
     return true
   }
   this.checkEnabled = () => {
-    console.log(amounts, this.cost)
     if (amounts.farm < this.cost.f || amounts.mine < this.cost.m || amounts.labs < this.cost.l) {
-      console.log('Disabled')
       this.el.disabled = true
 
       return false
@@ -142,9 +133,10 @@ const BtnEvent = function (label, fn, cost, showFn = () => false) {
 
 const colonize = () => {
   const wr = document.querySelector('.wrapper')
-
-  wr.classList.add('end')
+  
   events.colonize.el.classList.add('hidden')
+  wr.classList.add('end')
+  wr.classList.remove('three')
   settings.hasTraveled = true
 
   setTimeout(() => {
@@ -165,6 +157,14 @@ const resetEvents = () => {
 
   events = {
     recruit: new BtnEvent(recruitMsg, recruitVillager, { f: 20 }, () => true),
+    bridge: new BtnEvent('Bridge Rivers - No more slow travel!', () => {
+      settings.travelRight = 1
+      events.bridge.el.classList.add('hidden')
+    }, { m: 20, l: 20 }, () => villagers.length >= 3),
+    clear: new BtnEvent('Clear Forests - No more slow travel!', () => {
+      settings.travelLeft = 1
+      events.clear.el.classList.add('hidden')
+    }, { f: 20, l: 20 }, () => villagers.length >= 3),
     nutrition: new BtnEvent('Nutrition & Fitness - Move Faster!', () => {
       settings.moveMod += .5
       events.nutrition.el.classList.add('hidden')
@@ -176,16 +176,17 @@ const resetEvents = () => {
     backpacks: new BtnEvent('Ergonomic Backpacks - Do More!', () => {
       settings.resourceMod += 5
       events.backpacks.el.classList.add('hidden')
-    }, { f: 20 }),
+    }, { m: 30, l: 60 }),
     propaganda: new BtnEvent('Motivational Propaganda - Be Better, Comrade!', () => {
       settings.moveMod += .5
       settings.workMod += 50
       events.propaganda.el.classList.add('hidden')
-    }, { f: 20 }),
+    }, { f: 50, l: 100 }),
     upgrade: new BtnEvent('Advance Society - More Efficiency! More Progress!', () => {
       settings.moveMod += .5
       settings.workMod += 50
       settings.resourceMod += 5
+      document.querySelector('.wrapper').classList.add('three')
       events.upgrade.el.classList.add('hidden')
     }, { f: 20 }),
     colonize: new BtnEvent('Colonize New Planet - Goodbye World, Hello World!', colonize, { f: 20 }),
@@ -196,11 +197,7 @@ const updateResources = () => {
   farmAmountEl.innerHTML = amounts.farm
   mineAmountEl.innerHTML = amounts.mine
   labsAmountEl.innerHTML = amounts.labs
-
-  eventButtons.forEach((btn) => {
-    btn.checkEnabled()
-    btn.checkDisplay()
-  })
+  checkEvents()
 }
 
 const recruitVillager = () => {
@@ -215,60 +212,20 @@ const recruitVillager = () => {
 const createButtons = () => {
   eventButtons = []
 
-  recruitBtn = events.recruit.el
-  eventButtons.push(events.recruit)
-  mainButtonsEl.appendChild(recruitBtn)
-
-  nutritionBtn = events.nutrition.el
-  eventButtons.push(events.nutrition)
-  mainButtonsEl.appendChild(nutritionBtn)
-
-  toolsBtn = events.tools.el
-  eventButtons.push(events.tools)
-  mainButtonsEl.appendChild(toolsBtn)
-
-  backpacksBtn = events.backpacks.el
-  eventButtons.push(events.backpacks)
-  mainButtonsEl.appendChild(backpacksBtn)
-
-  propagandaBtn = events.propaganda.el
-  eventButtons.push(events.propaganda)
-  mainButtonsEl.appendChild(propagandaBtn)
-
-  upgradeBtn = events.upgrade.el
-  eventButtons.push(events.upgrade)
-  mainButtonsEl.appendChild(upgradeBtn)
-
-  colonizeBtn = events.colonize.el
-  eventButtons.push(events.colonize)
-  mainButtonsEl.appendChild(colonizeBtn)
-
-  // mainButtonsEl.appendChild(nutritionBtn)
-  // mainButtonsEl.appendChild(toolsBtn)
-  // mainButtonsEl.appendChild(backpacksBtn)
-  // mainButtonsEl.appendChild(propagandaBtn)
-  // mainButtonsEl.appendChild(upgradeBtn)
-  // mainButtonsEl.appendChild(colonizeBtn)
+  Object.values(events).forEach((v) => {
+    eventButtons.push(v)
+    mainButtonsEl.appendChild(v.el)
+  })
 }
 
 const checkEvents = () => {
-  // Recruit Villager f: 10
-
-  // Nutrition Guidelines: f: 30 l: 20 -> Faster Movement
-  // Fancier Tools: m: 40 l: 40 -> Faster Work
-  // Erganomic Backpacks: m: 20 l: 40 -> More Carry
-  // Work Fulfillment Propaganda l: 20 -> Faster Move and Work
-
-  // Bridge Rivers m: 40 l: 30
-
-  // Upgrade Society f: 100 m: 100 l: 100
-
-  // Colonize New Planet f: 200 m: 200 l: 200
+  eventButtons.forEach((btn) => {
+    btn.checkEnabled()
+    btn.checkDisplay()
+  })
 }
 
 const addResource = (r) => {
-  console.log('Dropping resource', r)
-
   amounts[r] += 10 + settings.resourceMod
 
   updateResources()

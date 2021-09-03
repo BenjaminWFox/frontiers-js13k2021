@@ -301,7 +301,6 @@ export function Person() {
     }
 
     if (this.carrying) {
-      console.log('Draw carry', this.carrying)
       this.context.drawImage(this.resourceImages[this.carrying], 17, 0)
     }
 
@@ -352,7 +351,9 @@ export function Person() {
     }
 
     if (this.walking) {
-      this.faceDir === 'r' ? this.setPos(this.pos + (2 * settings.moveMod)) : this.setPos(this.pos - (2 * settings.moveMod))
+      let dirMod = this.faceDir === 'r' ? 1 : -1
+
+      this.setPos(this.pos + (2 * settings.moveMod * settings[this.region] * dirMod))
 
       if (this.lastStepTime + 100 < time) {
         if (this.lastStepPos === 'f') {
@@ -383,7 +384,6 @@ export function Person() {
         this.timesWorked = 0
       }
       else if (this.workTime + (settings.workSpeed - settings.workMod) < time) {
-        console.log(settings.workSpeed, settings.workMod)
         const isUp = !(this.timesWorked % 2)
 
         switch (this.job) {
@@ -456,7 +456,6 @@ export function Person() {
   }
 
   this.setJob = (j) => {
-    console.log('Set job', j, this.task)
     this.job = j
 
     if (j === 'idle' && this.task !== 'drop') {
@@ -509,7 +508,6 @@ export function Person() {
   }
 
   this.doDrop = () => {
-    console.log('do drop')
     this.addResource(this.carrying)
     this.carrying = ''
     this.jump()
