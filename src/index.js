@@ -102,10 +102,11 @@ const regions = {
 }
 let events
 
-const BtnEvent = function (label, fn, cost) {
+const BtnEvent = function (label, fn, cost, showFn = () => false) {
   const { f = 0, m = 0, l = 0 } = cost
 
   this.el = createButton(label, fn, cost)
+  this.el.style.display = 'none'
   this.cost = { f, m, l }
   this.label = label
   this.fn = fn
@@ -132,7 +133,11 @@ const BtnEvent = function (label, fn, cost) {
 
     return true
   }
+  this.checkDisplay = () => {
+    showFn() ? this.el.style.display = 'block' : this.el.style.display = 'none'
+  }
   this.checkEnabled()
+  this.checkDisplay()
 }
 
 const colonize = () => {
@@ -159,11 +164,11 @@ const resetEvents = () => {
   const recruitMsg = settings.hasTraveled ? '\'Make\' Villager - They grow up so fast!' : 'Recruit Villager - Do More with More!'
 
   events = {
-    recruit: new BtnEvent(recruitMsg, recruitVillager, { f: 20 }),
+    recruit: new BtnEvent(recruitMsg, recruitVillager, { f: 20 }, () => true),
     nutrition: new BtnEvent('Nutrition & Fitness - Move Faster!', () => {
       settings.moveMod += .5
       events.nutrition.el.classList.add('hidden')
-    }, { f: 10, l: 10 }),
+    }, { f: 10, l: 10 }, () => villagers.length > 4),
     tools: new BtnEvent('Lighter, Stronger Tools - Work Harder!', () => {
       settings.workMod += 100
       events.tools.el.classList.add('hidden')
@@ -194,6 +199,7 @@ const updateResources = () => {
 
   eventButtons.forEach((btn) => {
     btn.checkEnabled()
+    btn.checkDisplay()
   })
 }
 
