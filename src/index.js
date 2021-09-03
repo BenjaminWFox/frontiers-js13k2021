@@ -142,7 +142,7 @@ const BtnEvent = function (label, fn, cost, showFn = () => false) {
 
 const colonize = () => {
   const wr = $s('.wrapper')
-  
+
   events.colonize.el.classList.add('hidden')
   wr.classList.add('end')
   player.playbackRate.value = 1
@@ -157,10 +157,10 @@ const colonize = () => {
     })
     wr.classList.remove('end')
     wr.classList.remove('adv')
-    $i('tLR').classList.remove('clr')
-    $i('tRR').classList.remove('brg')
+    regions.travelLeft.classList.remove('clr')
+    regions.travelRight.classList.remove('brg')
     $i('hR').classList.remove('p1', 'p2', 'p3', 'p4', 'p5', 'p6')
-  
+
     init()
     begin()
   }, 9000)
@@ -174,39 +174,39 @@ const resetEvents = () => {
     bridge: new BtnEvent('Bridge Rivers - Faster River Travel!', () => {
       settings.travelRight = 1
       events.bridge.el.classList.add('hidden')
-      $i('tRR').classList.add('brg')
+      regions.travelRight.classList.add('brg')
     }, { m: 20, l: 20 },
-    () => villagers.length >= 3),
+      () => villagers.length >= 3),
     clear: new BtnEvent('Clear Forests - Faster Forest Travel!', () => {
       settings.travelLeft = 1
       events.clear.el.classList.add('hidden')
-      $i('tLR').classList.add('clr')
+      regions.travelLeft.classList.add('clr')
     }, { f: 20, l: 20 },
-    () => villagers.length >= 3),
+      () => villagers.length >= 3),
     nutrition: new BtnEvent('Nutrition & Fitness - Move Faster!', () => {
       settings.moveMod += .5
       player.playbackRate.value += .05
       events.nutrition.el.classList.add('hidden')
     }, { f: 20, l: 40 },
-    () => villagers.length >= 4),
+      () => villagers.length >= 4),
     tools: new BtnEvent('Lighter, Stronger Tools - Work Faster!', () => {
       settings.workMod += 100
       player.playbackRate.value += .05
       events.tools.el.classList.add('hidden')
     }, { m: 30, l: 30 },
-    () => villagers.length >= 6),
+      () => villagers.length >= 6),
     backpacks: new BtnEvent('Ergonomic Backpacks - Carry More!', () => {
       settings.resourceMod += 5
       events.backpacks.el.classList.add('hidden')
     }, { m: 30, l: 60 },
-    () => villagers.length >= 8),
+      () => villagers.length >= 8),
     propaganda: new BtnEvent('Motivational Propaganda - Be Better, Comrade!', () => {
       settings.moveMod += .5
       settings.workMod += 50
       player.playbackRate.value += .05
       events.propaganda.el.classList.add('hidden')
     }, { f: 50, l: 100 },
-    () => villagers.length >= 10),
+      () => villagers.length >= 10),
     upgrade: new BtnEvent('Advance Society - More Efficiency! More Progress!', () => {
       settings.moveMod += .5
       settings.workMod += 50
@@ -216,12 +216,12 @@ const resetEvents = () => {
       $s('.wrapper').classList.add('adv')
       events.upgrade.el.classList.add('hidden')
     },
-    { f: 100, m: 100, l: 100 },
-    () => settings.moveMod >= 2 && villagers.length >= 12),
+      { f: 100, m: 100, l: 100 },
+      () => settings.moveMod >= 2 && villagers.length >= 12),
     colonize: new BtnEvent('Colonize New Planet - Goodbye World, Hello World!',
-    colonize,
-    { f: 200, m: 200, l: 200 },
-    () => settings.upgraded && villagers.length >= 14),
+      colonize,
+      { f: 200, m: 200, l: 200 },
+      () => settings.upgraded && villagers.length >= 14),
     // () => villagers.length >= 2),
   }
 }
@@ -271,7 +271,7 @@ const createButton = (text, fn, cost) => {
   const cst = document.createElement('span')
 
   btn.addEventListener('click', fn)
-  btn.classList.add('mainBtn')
+  btn.classList.add('mB')
   btn.innerHTML = text
   csts.classList.add('costs')
   btn.appendChild(csts)
@@ -341,7 +341,7 @@ const assign = (e) => {
 }
 
 const initJobButtons = () => {
-  document.querySelectorAll('.assignBtn').forEach((button) => {
+  document.querySelectorAll('.aB').forEach((button) => {
     button.addEventListener('click', assign)
   })
 }
@@ -351,6 +351,45 @@ const resetAll = () => {
   resetAssignments()
   resetAmounts()
   resetEvents()
+}
+
+const addElements = () => {
+  /* eslint-disable no-sparse-arrays */
+  const tlt = [
+    ['5px', '11px'],
+    ['240px', '6px'],
+    ['30px', '28px', ,],
+    ['225px', '20px', ,],
+    ['55px', '14px'],
+    ['200px', '4px'],
+    ['210px', '14px'],
+    ['140px', '4px'],
+    ['150px', '20px'],
+    ['74px', '12px'],
+    ['180px', '20px'],
+    ['168px', '18px', ,],
+    ['125px', '27px', ,],
+    ['40px', '8px'],
+    ['50px', '29px', ,],
+    ['100px', '20px', ,],
+    ['95px', '18px'],
+  ]
+  /* eslint-enable no-sparse-arrays */
+
+  for (let i = 0; i < tlt.length; i++) {
+    const d = document.createElement('div')
+
+    // 0=1 1=2 2=1 3=2 4=1
+    d.classList.add(`tr${i % 2 + 1}`)
+    d.style.left = tlt[i][0]
+    d.style.top = tlt[i][1]
+    if (tlt[i].length > 2) {
+      d.classList.add('trtmp')
+      d.style.zIndex = 600
+    }
+
+    regions.travelLeft.appendChild(d)
+  }
 }
 
 const init = () => {
@@ -370,22 +409,26 @@ const init = () => {
 
   regions.travelLeft = $i('tLR')
   regions.travelRight = $i('tRR')
-  regions.farm = $i('farmRegion')
-  regions.mine = $i('mineRegion')
-  regions.labs = $i('labsRegion')
-  farmCountEl = $i('farmCount')
-  mineCountEl = $i('mineCount')
-  labsCountEl = $i('labsCount')
-  farmAmountEl = $i('farmAmount')
-  mineAmountEl = $i('mineAmount')
-  labsAmountEl = $i('labsAmount')
+  regions.farm = $i('fR')
+  regions.mine = $i('mR')
+  regions.labs = $i('lR')
+  farmCountEl = $i('fC')
+  mineCountEl = $i('mC')
+  labsCountEl = $i('lC')
+  farmAmountEl = $i('fA')
+  mineAmountEl = $i('mA')
+  labsAmountEl = $i('lA')
   workingCountEl = $i('working')
-  mainButtonsEl = $i('mainButtons')
+  mainButtonsEl = $i('mBs')
+
+  if (!settings.hasTraveled) {
+    addElements()
+  }
 
   images.farm.src = farmImg
   images.mine.src = mineImg
   images.labs.src = labsImg
-  
+
   updateWorkingCount()
   updateAssignedCount()
   updateResources()
@@ -452,9 +495,9 @@ const startMusic = () => {
 
 window.onload = () => {
   document.addEventListener('click', startMusic)
-  
+
   const st = document.createElement('style')
-  
+
   st.innerHTML = `
   .cr {
     background-image: url('${farmImg}');
