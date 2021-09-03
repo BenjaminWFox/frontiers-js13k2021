@@ -14,6 +14,7 @@ const resetSettings = () => {
   settings.mine = 1
   settings.labs = 1
   settings.bridged = false
+  settings.upgraded = false
 }
 
 resetSettings()

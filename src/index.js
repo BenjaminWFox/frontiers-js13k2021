@@ -6,6 +6,9 @@ import mineImg from '../src/assets/images/icons/rock.png'
 import labsImg from '../src/assets/images/icons/labs.png'
 import { settings, resetSettings } from './settings'
 
+const $i = document.getElementById.bind(document)
+const $s = document.querySelector.bind(document)
+
 /* eslint-disable */
 //! ZzFXM (v2.0.3) | (C) Keith Clark | MIT | https://github.com/keithclark/ZzFXM
 // zzfx() - the universal entry point -- returns a AudioBufferSourceNode
@@ -29,9 +32,8 @@ const zzfxX = new (window.AudioContext || webkitAudioContext);
 const zzfxM = (n, f, t, e = 125) => { let l, o, z, r, g, h, x, a, u, c, d, i, m, p, G, M = 0, R = [], b = [], j = [], k = 0, q = 0, s = 1, v = {}, w = zzfxR / e * 60 >> 2; for (; s; k++)R = [s = a = d = m = 0], t.map((e, d) => { for (x = f[e][k] || [0, 0, 0], s |= !!f[e][k], G = m + (f[e][0].length - 2 - !a) * w, p = d == t.length - 1, o = 2, r = m; o < x.length + p; a = ++o) { for (g = x[o], u = o == x.length + p - 1 && p || c != (x[0] || 0) | g | 0, z = 0; z < w && a; z++ > w - 99 && u ? i += (i < 1) / 99 : 0)h = (1 - i) * R[M++] / 2 || 0, b[r] = (b[r] || 0) - h * q + h, j[r] = (j[r++] || 0) + h * q + h; g && (i = g % 1, q = x[1] || 0, (g |= 0) && (R = v[[c = x[M = 0] || 0, g]] = v[[c, g]] || (l = [...n[c]], l[2] *= 2 ** ((g - 12) / 12), g > 0 ? zzfxG(...l) : []))) } m = G }); return [b, j] }
 
 const song = [[[, 0, 740, , , .15, 2, .2, -.1, -.15, 9, .02, , .1, .12, , .06], [3, 0, 43, , , .25, , , , , , , , 2], [, 0, 219, , , , , 1.1, , -.1, -50, -.05, -.01, 1], [.8, 0, 2100, , , .2, 3, 3, , , -400, , , 2]], [[[, , 1, , , , 1, 5, 8, , , , , , 5, 10, , , 10, 10, , , 10, 6, 8, , , , , , 10, , 10, , 8, 8, , 5, 3, , 1, 5, 5, , , , 12, 13, 13, , 10, 10, , 5, , , 8, 3, , , , 6, 6, , 5, 3], [, , 5, , , , 5, 8, 13, , , , , , 6, 13, , , 15, 13, , , 13, 10, 8, , , , , , 17, , 17, , 15, 15, , 13, 10, , 1, 13, 15, , , , 15, 5, 3, , 1, 1, , , , , 3, 8, , , , 5, 5, , 1, 3], [, , 1, , , , 1, 5, 8, , , , , , 5, 10, , , 10, 10, , , 10, 6, 8, , , , , , 10, , 10, , 8, 8, , 5, 3, , 1, 5, 5, , , , 12, 13, 13, , 10, 10, , 5, , , 8, 3, , , , 6, 6, , 5, 3], [, , , , 32, 29, , , , , , , 30, 27, , , , , , , , , , , , , , 30, 27, 29, , , , , , , , 25, 29, 27, , , , , , , , , , , , , , , , , , , 32, 29, 32, , , , , ,], [1, , 13, , , , , , , , 20, 10, , , , , , , 13, , , , , , , , 25, 12, , , , , , , 13, , , , , , , , 20, 10, , , , , , , 13, , , , , , , , 25, 12, , , , , , ,], [2, , , , , , , , , , , , 20, , , 13, , , , , , , 1, , , , , , 25, , , 20, , , , , , , , , , , , , 20, , , 13, , , , , , , , , , , , , 25, , , 20, , ,], [3, , , , , , , , , , , , 13, , 13, 10, , , , , , , , , , , , , 20, , 20, 5, , , , , , , , , , , , , 13, , 13, 10, , , , , , , , , , , , , 20, , 20, 5, , ,]]], [0], 104, { "title": "HorizonsV1", "instruments": ["Flute", "Bass Drum 2", "Snare 2", "Hihat Open"], "patterns": ["Pattern 0"] }]
+let player
 
-// const player = zzfxP(...zzfxM(...song))
-// player.loop = true
 /* eslint-enable */
 
 let RECRUIT_MOD = 1.2
@@ -98,21 +100,28 @@ let events
 const BtnEvent = function (label, fn, cost, showFn = () => false) {
   const { f = 0, m = 0, l = 0 } = cost
 
-  this.el = createButton(label, fn, cost)
-  this.el.style.display = 'none'
-  this.cost = { f, m, l }
-  this.label = label
-  this.fn = fn
   this.pay = () => {
+    console.log('PAY')
     if (amounts.farm < this.cost.f || amounts.mine < this.cost.m || amounts.labs < this.cost.l) {
       return false
     }
+
     amounts.farm -= this.cost.f
     amounts.mine -= this.cost.m
     amounts.labs -= this.cost.l
 
+    updateResources()
+
+    fn()
+
     return true
   }
+
+  this.el = createButton(label, this.pay, cost)
+  this.el.style.display = 'none'
+  this.cost = { f, m, l }
+  this.label = label
+  this.fn = fn
   this.checkEnabled = () => {
     if (amounts.farm < this.cost.f || amounts.mine < this.cost.m || amounts.labs < this.cost.l) {
       this.el.disabled = true
@@ -126,17 +135,22 @@ const BtnEvent = function (label, fn, cost, showFn = () => false) {
   }
   this.checkDisplay = () => {
     showFn() ? this.el.style.display = 'block' : this.el.style.display = 'none'
+    // this.el.style.display = 'block'
   }
   this.checkEnabled()
   this.checkDisplay()
 }
 
 const colonize = () => {
-  const wr = document.querySelector('.wrapper')
+  const wr = $s('.wrapper')
   
   events.colonize.el.classList.add('hidden')
   wr.classList.add('end')
   wr.classList.remove('adv')
+  $i('travelLeftRegion').classList.remove('clr')
+  $i('travelRightRegion').classList.remove('brg')
+  $i('homeRegion').classList.remove('p1', 'p2', 'p3', 'p4', 'p5', 'p6')
+  player.playbackRate.value = 1
   settings.hasTraveled = true
 
   setTimeout(() => {
@@ -147,9 +161,11 @@ const colonize = () => {
       btn.el.parentNode.removeChild(btn.el)
     })
     wr.classList.remove('end')
+
     init()
     begin()
   }, 9000)
+  // }, 500)
 }
 
 const resetEvents = () => {
@@ -157,39 +173,57 @@ const resetEvents = () => {
 
   events = {
     recruit: new BtnEvent(recruitMsg, recruitVillager, { f: 20 }, () => true),
-    bridge: new BtnEvent('Bridge Rivers - No more slow travel!', () => {
+    bridge: new BtnEvent('Bridge Rivers - Faster River Travel!', () => {
       settings.travelRight = 1
       events.bridge.el.classList.add('hidden')
-    }, { m: 20, l: 20 }, () => villagers.length >= 3),
-    clear: new BtnEvent('Clear Forests - No more slow travel!', () => {
+      $i('travelRightRegion').classList.add('brg')
+    }, { m: 20, l: 20 },
+    () => villagers.length >= 3),
+    clear: new BtnEvent('Clear Forests - Faster Forest Travel!', () => {
       settings.travelLeft = 1
       events.clear.el.classList.add('hidden')
-    }, { f: 20, l: 20 }, () => villagers.length >= 3),
+      $i('travelLeftRegion').classList.add('clr')
+    }, { f: 20, l: 20 },
+    () => villagers.length >= 3),
     nutrition: new BtnEvent('Nutrition & Fitness - Move Faster!', () => {
       settings.moveMod += .5
+      player.playbackRate.value += .05
       events.nutrition.el.classList.add('hidden')
-    }, { f: 10, l: 10 }, () => villagers.length > 4),
-    tools: new BtnEvent('Lighter, Stronger Tools - Work Harder!', () => {
+    }, { f: 20, l: 40 },
+    () => villagers.length >= 4),
+    tools: new BtnEvent('Lighter, Stronger Tools - Work Faster!', () => {
       settings.workMod += 100
+      player.playbackRate.value += .05
       events.tools.el.classList.add('hidden')
-    }, { f: 20 }),
-    backpacks: new BtnEvent('Ergonomic Backpacks - Do More!', () => {
+    }, { m: 30, l: 30 },
+    () => villagers.length >= 6),
+    backpacks: new BtnEvent('Ergonomic Backpacks - Carry More!', () => {
       settings.resourceMod += 5
       events.backpacks.el.classList.add('hidden')
-    }, { m: 30, l: 60 }),
+    }, { m: 30, l: 60 },
+    () => villagers.length >= 8),
     propaganda: new BtnEvent('Motivational Propaganda - Be Better, Comrade!', () => {
       settings.moveMod += .5
       settings.workMod += 50
+      player.playbackRate.value += .05
       events.propaganda.el.classList.add('hidden')
-    }, { f: 50, l: 100 }),
+    }, { f: 50, l: 100 },
+    () => villagers.length >= 10),
     upgrade: new BtnEvent('Advance Society - More Efficiency! More Progress!', () => {
       settings.moveMod += .5
       settings.workMod += 50
       settings.resourceMod += 5
-      document.querySelector('.wrapper').classList.add('adv')
+      settings.upgraded = true
+      player.playbackRate.value += .05
+      $s('.wrapper').classList.add('adv')
       events.upgrade.el.classList.add('hidden')
-    }, { f: 20 }),
-    colonize: new BtnEvent('Colonize New Planet - Goodbye World, Hello World!', colonize, { f: 20 }),
+    },
+    { f: 100, m: 100, l: 100 },
+    () => settings.moveMod >= 2 && villagers.length >= 12),
+    colonize: new BtnEvent('Colonize New Planet - Goodbye World, Hello World!',
+    colonize,
+    { f: 200, m: 200, l: 200 },
+    () => settings.upgraded && villagers.length >= 14),
   }
 }
 
@@ -197,16 +231,15 @@ const updateResources = () => {
   farmAmountEl.innerHTML = amounts.farm
   mineAmountEl.innerHTML = amounts.mine
   labsAmountEl.innerHTML = amounts.labs
+
   checkEvents()
 }
 
 const recruitVillager = () => {
-  if (events.recruit.pay()) {
-    events.recruit.cost.f = Math.round(events.recruit.cost.f * RECRUIT_MOD)
-    events.recruit.el.querySelector('.fCost').innerHTML = events.recruit.cost.f
-    updateResources()
-    addVillager()
-  }
+  events.recruit.cost.f = Math.round(events.recruit.cost.f * RECRUIT_MOD)
+  events.recruit.el.querySelector('.fCost').innerHTML = `: ${events.recruit.cost.f}`
+  updateResources()
+  addVillager()
 }
 
 const createButtons = () => {
@@ -324,10 +357,10 @@ const resetAll = () => {
 const init = () => {
   resetSettings()
   resetAll()
-  regions.home = document.getElementById('homeRegion')
+  regions.home = $i('homeRegion')
 
   if (settings.hasTraveled) {
-    const lander = document.getElementById('lander').cloneNode(true)
+    const lander = $i('lander').cloneNode(true)
 
     lander.classList.remove('space')
     lander.classList.remove('lander')
@@ -335,22 +368,22 @@ const init = () => {
     regions.home.appendChild(lander)
   }
 
-  regions.travelLeft = document.getElementById('travelLeftRegion')
-  regions.travelRight = document.getElementById('travelRightRegion')
-  regions.farm = document.getElementById('farmRegion')
-  regions.mine = document.getElementById('mineRegion')
-  regions.labs = document.getElementById('labsRegion')
-  farmCountEl = document.getElementById('farmCount')
-  mineCountEl = document.getElementById('mineCount')
-  labsCountEl = document.getElementById('labsCount')
-  farmAmountEl = document.getElementById('farmAmount')
-  mineAmountEl = document.getElementById('mineAmount')
-  labsAmountEl = document.getElementById('labsAmount')
-  farmImgEl = document.getElementById('matFarm')
-  mineImgEl = document.getElementById('matMine')
-  labsImgEl = document.getElementById('matLabs')
-  workingCountEl = document.getElementById('working')
-  mainButtonsEl = document.getElementById('mainButtons')
+  regions.travelLeft = $i('travelLeftRegion')
+  regions.travelRight = $i('travelRightRegion')
+  regions.farm = $i('farmRegion')
+  regions.mine = $i('mineRegion')
+  regions.labs = $i('labsRegion')
+  farmCountEl = $i('farmCount')
+  mineCountEl = $i('mineCount')
+  labsCountEl = $i('labsCount')
+  farmAmountEl = $i('farmAmount')
+  mineAmountEl = $i('mineAmount')
+  labsAmountEl = $i('labsAmount')
+  farmImgEl = $i('matFarm')
+  mineImgEl = $i('matMine')
+  labsImgEl = $i('matLabs')
+  workingCountEl = $i('working')
+  mainButtonsEl = $i('mainButtons')
 
   farmImgEl.src = farmImg
   mineImgEl.src = mineImg
@@ -361,6 +394,7 @@ const init = () => {
 
   updateWorkingCount()
   updateAssignedCount()
+  updateResources()
   createButtons()
   initJobButtons()
 }
@@ -378,6 +412,10 @@ const addVillager = (pos = randomIntFromTuple(coords.homeBounds)) => {
 
   checkEvents()
   updateWorkingCount()
+
+  if (villagers.length < 25) {
+    $i('homeRegion').classList.add(`p${Math.floor(villagers.length / 2)}`)
+  }
 
   return v
 }
@@ -411,7 +449,15 @@ function play(time) {
   window.requestAnimationFrame(play)
 }
 
+const startMusic = () => {
+  document.removeEventListener('click', startMusic)
+
+  player = zzfxP(...zzfxM(...song))
+  player.loop = true
+}
+
 window.onload = () => {
+  document.addEventListener('click', startMusic)
   init()
   begin()
   play()
