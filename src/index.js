@@ -375,15 +375,15 @@ const addElements = () => {
     [95, 18],
   ]
   const hrh = [
-    [300, 6],
-    [94, 0],
-    [350, 0],
-    [225, 0],
-    [480, -1],
-    [145, 4],
-    [405, 3],
+    [300], // , 6
+    [94], // , 0
+    [350], // , 0
+    [225], // , 0
+    [480,], //  -1
+    [145], // , 4
+    [405], // , 3
   ]
-  const hrt = []
+  // const hrt = []
   /* eslint-enable no-sparse-arrays */
 
   for (let i = 0; i < tlt.length; i++) {
@@ -406,7 +406,7 @@ const addElements = () => {
 
     d.classList.add('l', 'px', `h${i}`, `hs${i}`)
     d.style.left = hrh[i][0] + 'px'
-    d.style.top = hrh[i][1] + 'px'
+    // d.style.top = hrh[i][1] + 'px'
     i > 0 ? d.style.opacity = 0 : ''
     regions.home.appendChild(d)
   }

@@ -23,6 +23,12 @@ body {
   opacity: 1 !important;
 }
 
+.wrapper div, .wrapper img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
 .wrapper #game {
   transition: opacity .25s;
   opacity: 1;
@@ -31,7 +37,7 @@ body {
 }
 
 .space {
-  transition: opacity 1s;
+  transition: opacity .5s;
   background-color: #000;
   overflow: hidden;
   position: absolute;
@@ -130,36 +136,36 @@ body {
   bottom: 0;
 }
 
-.sky {
+.st {
   background-color: skyblue;
 }
 
-.two .sky {
+.two .st {
   background-color: lightsteelblue;
 }
 
-.adv .sky {
+.adv .st {
   background-color: lightslategray;
 }
 
-.grass {
+.gb {
   background-color: forestgreen;
 }
 
-.two .grass {
+.two .gb {
   background-color: burlywood;
 }
 
-.adv .grass {
+.adv .gb {
   background-color: gray;
 }
 
-.b.top {
+.b.st {
   top: 0px;
   height: 45px;
 }
 
-.b.bottom {
+.b.gb {
   top: 44px;
   height: 22px;
 }
@@ -260,7 +266,6 @@ HOUSE STUFF:
 }
 .adv .l {
   background-image: url(../src/assets/images/apts.png);
-  top: 0px;
 }
 
 .p1 .hs1, .p2 .hs2, .p3 .hs3, .p4 .hs4, .p5 .hs5, .p6 .hs6 {
