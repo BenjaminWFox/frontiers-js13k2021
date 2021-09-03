@@ -95,15 +95,6 @@ const createArms = (dir = 'd', skintone, tTone) => {
       ctx.fillRect(20, 7, 4, 3)
       ctx.fillRect(19, 9, 1, 1)
       break
-    case 'b':
-      ctx.fillStyle = tTone.second
-      ctx.fillRect(13, 20, 11, 4)
-
-      ctx.fillStyle = skintone.skin
-      ctx.fillRect(10, 20, 3, 4)
-      ctx.fillRect(12, 24, 1, 1)
-
-      break
   }
 
   return armCanvas
@@ -145,15 +136,6 @@ const createPick = (dir = 'd') => {
       ctx.fillRect(7, 2, 1, 12)
       ctx.fillRect(8, 1, 1, 14)
       break
-    case 'b':
-      // ctx.fillStyle = '#3c2601'
-      // ctx.fillRect(13, 20, 11, 4)
-
-      // ctx.fillStyle = '#767676'
-      // ctx.fillRect(10, 20, 3, 4)
-      // ctx.fillRect(12, 24, 1, 1)
-
-      break
   }
 
   return pickCanvas
@@ -192,23 +174,12 @@ const createHoe = (dir) => {
       ctx.fillStyle = '#767676'
       ctx.fillRect(2, 4, 2, 5)
       break
-    case 'b':
-      // ctx.fillStyle = '#3c2601'
-      // ctx.fillRect(13, 20, 11, 4)
-
-      // ctx.fillStyle = '#767676'
-      // ctx.fillRect(10, 20, 3, 4)
-      // ctx.fillRect(12, 24, 1, 1)
-
-      break
   }
 
   return hoeCanvas
 }
 
-// const createPick =
-
-const createFeet = (pCtx, offset = 0) => {
+const createFeet = () => {
   const legCanvas = document.createElement('canvas')
   const ctx = legCanvas.getContext('2d')
 
@@ -221,8 +192,6 @@ const createFeet = (pCtx, offset = 0) => {
   ctx.fillRect(4, 3, 2, 2)
 
   return legCanvas
-
-  // pCtx.drawImage(legCanvas, (13 - offset), 33)
 }
 
 export function Person() {

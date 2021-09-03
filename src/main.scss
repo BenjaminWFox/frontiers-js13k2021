@@ -15,6 +15,8 @@ body {
   position: absolute;
 }
 
+.ib { display: inline-block;}
+
 .wrapper {
   background-color: #fff;
   transition: background-color 1s, opacity 4s;
@@ -354,3 +356,20 @@ RIVER STUFF:
 .rv3 { left: 165px; }
 .rv4 { left: 185px; }
 .rv5 { left: 205px; }
+
+/**
+BACKGROUND STUFF
+**/
+.cr, .rk, .lb {
+  width: 9px;
+  height: 12px;
+}
+.cr.x2, .rk.x2, .lb.x2 {
+  width: 18px;
+  height: 24px;
+}
+.rk.x3 {
+  width: 27px;
+  height: 36px;
+}
+// IMAGES for the cr/rk/lb styles are created in a separate stylesheet via js

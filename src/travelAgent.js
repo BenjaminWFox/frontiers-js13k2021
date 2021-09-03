@@ -1,5 +1,4 @@
 function movePerson(p, newRegion, pos, swapDir) {
-  console.log(newRegion, pos, swapDir)
   p.regions[p.region].removeChild(p.canvas)
   p.regions[newRegion].appendChild(p.canvas)
   p.setRegion(newRegion)
@@ -23,7 +22,6 @@ export function travelAgent(p) {
     case 'travelLeft':
       if (p.faceDir === 'l' && p.pos < 0 - p.canvas.width) {
         movePerson(p, 'home', p.coords.homeBounds[0] - p.canvas.width, true)
-        console.log('out left travel')
       }
       if (p.faceDir === 'r' && p.pos > p.coords.travelBounds[1]) {
         if (p.job === 'farm') {
@@ -57,12 +55,10 @@ export function travelAgent(p) {
       }
       if (p.faceDir === 'r' && p.pos > p.coords.travelBounds[1]) {
         movePerson(p, 'home', p.coords.homeBounds[1], true)
-        console.log('out right travel')
       }
       break
     case 'farm':
       if (p.faceDir === 'l' && p.pos < 0 - p.canvas.width) {
-        console.log('out left farm')
         movePerson(p, 'travelLeft', p.coords.travelBounds[1], false)
       }
       if (p.faceDir === 'r' && p.pos > p.coords.jobBounds[1]) {
@@ -73,20 +69,18 @@ export function travelAgent(p) {
     case 'mine':
       if (p.faceDir === 'l' && p.pos < 0 - p.canvas.width) {
         movePerson(p, 'travelLeft', p.coords.travelBounds[1], false)
-        console.log('out left mine')
       }
       if (p.faceDir === 'r' && p.pos > p.coords.jobBounds[1]) {
         movePerson(p, 'travelRight', p.coords.travelBounds[0] - p.canvas.width, false)
-        console.log('out right mine')
       }
       break
     case 'labs':
       if (p.faceDir === 'l' && p.pos < 0 - p.canvas.width) {
+        // Should not happen...
         console.error('out left labs')
       }
       if (p.faceDir === 'r' && p.pos > p.coords.jobBounds[1]) {
         movePerson(p, 'travelRight', p.coords.travelBounds[0] - p.canvas.width, false)
-        console.log('out right labs')
       }
       break
     default: break

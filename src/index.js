@@ -49,9 +49,6 @@ let labsCountEl
 let farmAmountEl
 let mineAmountEl
 let labsAmountEl
-let farmImgEl
-let mineImgEl
-let labsImgEl
 let mainButtonsEl
 
 let villagers
@@ -280,7 +277,7 @@ const createButton = (text, fn, cost) => {
   if (f) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<img src="${farmImg}"/><span class="fCost">: ${f}</span>`
+    fel.innerHTML = `<div class="px ib cr"></div><span class="fCost">: ${f}</span>`
 
     csts.appendChild(fel)
   }
@@ -288,7 +285,7 @@ const createButton = (text, fn, cost) => {
   if (m) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<img src="${mineImg}"/><span class="mCost">: ${m}</span>`
+    fel.innerHTML = `<div class="px ib rk"></div><span class="mCost">: ${m}</span>`
 
     csts.appendChild(fel)
   }
@@ -296,7 +293,7 @@ const createButton = (text, fn, cost) => {
   if (l) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<img src="${labsImg}"/><span class="lCost">: ${l}</span>`
+    fel.innerHTML = `<div class="px ib lb"></div><span class="lCost">: ${l}</span>`
 
     csts.appendChild(fel)
   }
@@ -378,19 +375,13 @@ const init = () => {
   farmAmountEl = $i('farmAmount')
   mineAmountEl = $i('mineAmount')
   labsAmountEl = $i('labsAmount')
-  farmImgEl = $i('matFarm')
-  mineImgEl = $i('matMine')
-  labsImgEl = $i('matLabs')
   workingCountEl = $i('working')
   mainButtonsEl = $i('mainButtons')
 
-  farmImgEl.src = farmImg
-  mineImgEl.src = mineImg
-  labsImgEl.src = labsImg
   images.farm.src = farmImg
   images.mine.src = mineImg
   images.labs.src = labsImg
-
+  
   updateWorkingCount()
   updateAssignedCount()
   updateResources()
@@ -457,6 +448,23 @@ const startMusic = () => {
 
 window.onload = () => {
   document.addEventListener('click', startMusic)
+  const st = document.createElement('style')
+  
+  st.innerHTML = `
+  .cr {
+    background-image: url('${farmImg}');
+    background-size: contain;
+  }
+  .rk {
+    background-image: url('${mineImg}');
+    background-size: contain;
+  }
+  .lb {
+    background-image: url('${labsImg}');
+    background-size: contain;
+  }
+  `
+  document.head.appendChild(st)
   init()
   begin()
   play()
