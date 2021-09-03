@@ -136,7 +136,7 @@ const colonize = () => {
   
   events.colonize.el.classList.add('hidden')
   wr.classList.add('end')
-  wr.classList.remove('three')
+  wr.classList.remove('adv')
   settings.hasTraveled = true
 
   setTimeout(() => {
@@ -186,7 +186,7 @@ const resetEvents = () => {
       settings.moveMod += .5
       settings.workMod += 50
       settings.resourceMod += 5
-      document.querySelector('.wrapper').classList.add('three')
+      document.querySelector('.wrapper').classList.add('adv')
       events.upgrade.el.classList.add('hidden')
     }, { f: 20 }),
     colonize: new BtnEvent('Colonize New Planet - Goodbye World, Hello World!', colonize, { f: 20 }),

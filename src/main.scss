@@ -118,7 +118,7 @@ body {
   background-color: lightsteelblue;
 }
 
-.three .sky {
+.adv .sky {
   background-color: lightslategray;
 }
 
@@ -130,7 +130,7 @@ body {
   background-color: burlywood;
 }
 
-.three .grass {
+.adv .grass {
   background-color: gray;
 }
 
@@ -222,3 +222,65 @@ body {
 .cost {
   margin: 0 10px;
 }
+
+.l, .tr1, .tr2 {
+  transition: opacity 1s;
+  position: absolute;
+  z-index: 20;
+}
+.l {
+  width: 54px;
+  height: 49px;
+  background-image: url(../src/assets/images/house.png);
+}
+.adv .l {
+  background-image: url(../src/assets/images/apts.png);
+}
+.h1 { left: 94px; }
+.h2 { left: 145px; top: 4px; }
+.h3 { left: 225px; }
+.h4 { left: 300px; top: 6px; }
+.h5 { left: 350px; }
+.h6 { left: 405px; top: 3px; }
+.h7 { left: 480px; top: -1px; }
+
+.tr1 {
+  background-image: url(../src/assets/images/tree1.png);
+  width: 33px;
+  height: 36px;
+  top: 20px;
+}
+.tr2 {
+  background-image: url(../src/assets/images/tree2.png);
+  width: 25px;
+  height: 44px;
+  top: 3px;
+}
+.trtmp {
+  opacity: 1;
+}
+.clr .trtmp {
+  opacity: 0;
+}
+.t17 { left: 190px; z-index: 21; }
+.t18 { left: 260px; z-index: 19; }
+
+.t1 { left: 5px; top: 11px; }
+.t8 { left: 40px; top: 8px; }
+.t5 { left: 55px; top: 14px; }
+.t10 { left: 74px; top: 12px; }
+.t19 { left: 95px; top: 18px; }
+.t14 { left: 140px; top: 4px; }
+.t9 { left: 150px; top: 20px; }
+.t11 { left: 180px; top: 20px; }
+.t6 { left: 200px; top: 4px; }
+.t7 { left: 210px; top: 14px; }
+.t2 { left: 240px; top: 6px; }
+
+.t4 { left: 225px; top: 20px; z-index: 600; }
+.t12 { left: 168px; top: 18px; z-index: 600; }
+.t16 { left: 100px; top: 20px; z-index: 600; }
+.t13 { left: 125px; top: 27px; z-index: 600; }
+.t15 { left: 50px; top: 29px; z-index: 600; }
+.t3 { left: 30px; top: 28px; z-index: 600; }
+.t21 { left: 100px; top: 31px; z-index: 600; }
