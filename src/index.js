@@ -111,6 +111,8 @@ const BtnEvent = function (label, fn, cost, showFn = () => false) {
 
     fn()
 
+    checkEvents()
+
     return true
   }
 
@@ -143,10 +145,6 @@ const colonize = () => {
   
   events.colonize.el.classList.add('hidden')
   wr.classList.add('end')
-  wr.classList.remove('adv')
-  $i('travelLeftRegion').classList.remove('clr')
-  $i('travelRightRegion').classList.remove('brg')
-  $i('homeRegion').classList.remove('p1', 'p2', 'p3', 'p4', 'p5', 'p6')
   player.playbackRate.value = 1
   settings.hasTraveled = true
 
@@ -158,7 +156,11 @@ const colonize = () => {
       btn.el.parentNode.removeChild(btn.el)
     })
     wr.classList.remove('end')
-
+    wr.classList.remove('adv')
+    $i('travelLeftRegion').classList.remove('clr')
+    $i('travelRightRegion').classList.remove('brg')
+    $i('homeRegion').classList.remove('p1', 'p2', 'p3', 'p4', 'p5', 'p6')
+  
     init()
     begin()
   }, 9000)
@@ -220,6 +222,7 @@ const resetEvents = () => {
     colonize,
     { f: 200, m: 200, l: 200 },
     () => settings.upgraded && villagers.length >= 14),
+    // () => villagers.length >= 2),
   }
 }
 
@@ -355,12 +358,13 @@ const init = () => {
   resetAll()
   regions.home = $i('homeRegion')
 
-  if (settings.hasTraveled) {
-    const lander = $i('lander').cloneNode(true)
+  if (settings.hasTraveled && !$i('ldbg')) {
+    const lander = $i('ld').cloneNode(true)
 
     lander.classList.remove('space')
-    lander.classList.remove('lander')
-    lander.classList.add('landerbg')
+    lander.classList.remove('ld')
+    lander.classList.add('ldbg')
+    lander.id = 'ldbg'
     regions.home.appendChild(lander)
   }
 

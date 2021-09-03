@@ -318,6 +318,9 @@ export function Person() {
     if (this.jumping) {
       this.doJump(time)
     }
+    else if (this.task === 'idle' && this.job === 'idle') {
+      this.jump()
+    }
 
     if (this.walking) {
       let dirMod = this.faceDir === 'r' ? 1 : -1
