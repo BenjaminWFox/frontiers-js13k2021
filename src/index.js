@@ -66,9 +66,9 @@ const resetAssignments = () => {
 let amounts
 const resetAmounts = () => {
   amounts = {
-    farm: 0,
-    mine: 0,
-    labs: 0,
+    farm: 4000,
+    mine: 4000,
+    labs: 4000,
   }
 }
 let images = {
@@ -356,24 +356,34 @@ const resetAll = () => {
 const addElements = () => {
   /* eslint-disable no-sparse-arrays */
   const tlt = [
-    ['5px', '11px'],
-    ['240px', '6px'],
-    ['30px', '28px', ,],
-    ['225px', '20px', ,],
-    ['55px', '14px'],
-    ['200px', '4px'],
-    ['210px', '14px'],
-    ['140px', '4px'],
-    ['150px', '20px'],
-    ['74px', '12px'],
-    ['180px', '20px'],
-    ['168px', '18px', ,],
-    ['125px', '27px', ,],
-    ['40px', '8px'],
-    ['50px', '29px', ,],
-    ['100px', '20px', ,],
-    ['95px', '18px'],
+    [5, 11],
+    [240, 6],
+    [30, 28, ,],
+    [225, 20, ,],
+    [55, 14],
+    [200, 4],
+    [210, 14],
+    [140, 4],
+    [150, 20],
+    [74, 12],
+    [180, 20],
+    [168, 18, ,],
+    [125, 27, ,],
+    [40, 8],
+    [50, 29, ,],
+    [100, 20, ,],
+    [95, 18],
   ]
+  const hrh = [
+    [300, 6],
+    [94, 0],
+    [350, 0],
+    [225, 0],
+    [480, -1],
+    [145, 4],
+    [405, 3],
+  ]
+  const hrt = []
   /* eslint-enable no-sparse-arrays */
 
   for (let i = 0; i < tlt.length; i++) {
@@ -381,14 +391,24 @@ const addElements = () => {
 
     // 0=1 1=2 2=1 3=2 4=1
     d.classList.add(`tr${i % 2 + 1}`)
-    d.style.left = tlt[i][0]
-    d.style.top = tlt[i][1]
+    d.style.left = tlt[i][0] + 'px'
+    d.style.top = tlt[i][1] + 'px'
     if (tlt[i].length > 2) {
       d.classList.add('trtmp')
       d.style.zIndex = 600
     }
 
     regions.travelLeft.appendChild(d)
+  }
+
+  for (let i = 0; i < hrh.length; i++) {
+    const d = document.createElement('div')
+
+    d.classList.add('l', 'px', `h${i}`, `hs${i}`)
+    d.style.left = hrh[i][0] + 'px'
+    d.style.top = hrh[i][1] + 'px'
+    i > 0 ? d.style.opacity = 0 : ''
+    regions.home.appendChild(d)
   }
 }
 

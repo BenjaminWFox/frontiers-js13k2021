@@ -262,19 +262,9 @@ HOUSE STUFF:
   background-image: url(../src/assets/images/apts.png);
   top: 0px;
 }
-.h1 { left: 94px; }
-.h2 { left: 145px; top: 4px; }
-.h3 { left: 225px; }
-.h4 { left: 300px; top: 6px; }
-.h5 { left: 350px; }
-.h6 { left: 405px; top: 3px; }
-.h7 { left: 480px; top: -1px; }
-.hs1, .hs2, .hs3, .hs4, .hs5, .hs6 {
-  opacity: 0;
-}
 
 .p1 .hs1, .p2 .hs2, .p3 .hs3, .p4 .hs4, .p5 .hs5, .p6 .hs6 {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 /**
