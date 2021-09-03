@@ -74,9 +74,9 @@ const resetAssignments = () => {
 let amounts
 const resetAmounts = () => {
   amounts = {
-    farm: 40,
-    mine: 40,
-    labs: 40,
+    farm: 0,
+    mine: 0,
+    labs: 0,
   }
 }
 let images = {
@@ -102,7 +102,7 @@ const regions = {
 }
 let events
 
-const BtnEvent = function(label, fn, cost) {
+const BtnEvent = function (label, fn, cost) {
   const { f = 0, m = 0, l = 0 } = cost
 
   this.el = createButton(label, fn, cost)
@@ -143,17 +143,23 @@ const colonize = () => {
   settings.hasTraveled = true
 
   setTimeout(() => {
+    villagers.forEach((v) => {
+      v.canvas.parentNode.removeChild(v.canvas)
+    })
     eventButtons.forEach((btn) => {
       btn.el.parentNode.removeChild(btn.el)
     })
     wr.classList.remove('end')
     init()
-  }, 1500)
+    begin()
+  }, 9000)
 }
 
 const resetEvents = () => {
+  const recruitMsg = settings.hasTraveled ? '\'Make\' Villager - They grow up so fast!' : 'Recruit Villager - Do More with More!'
+
   events = {
-    recruit: new BtnEvent('Recruit Villager - Do More with More!', recruitVillager, { f: 20 }),
+    recruit: new BtnEvent(recruitMsg, recruitVillager, { f: 20 }),
     nutrition: new BtnEvent('Nutrition & Fitness - Move Faster!', () => {
       settings.moveMod += .5
       events.nutrition.el.classList.add('hidden')
@@ -161,22 +167,22 @@ const resetEvents = () => {
     tools: new BtnEvent('Lighter, Stronger Tools - Work Harder!', () => {
       settings.workMod += 100
       events.tools.el.classList.add('hidden')
-}, { f: 20 }),
+    }, { f: 20 }),
     backpacks: new BtnEvent('Ergonomic Backpacks - Do More!', () => {
       settings.resourceMod += 5
       events.backpacks.el.classList.add('hidden')
-}, { f: 20 }),
+    }, { f: 20 }),
     propaganda: new BtnEvent('Motivational Propaganda - Be Better, Comrade!', () => {
       settings.moveMod += .5
       settings.workMod += 50
       events.propaganda.el.classList.add('hidden')
-}, { f: 20 }),
+    }, { f: 20 }),
     upgrade: new BtnEvent('Advance Society - More Efficiency! More Progress!', () => {
       settings.moveMod += .5
       settings.workMod += 50
       settings.resourceMod += 5
       events.upgrade.el.classList.add('hidden')
-}, { f: 20 }),
+    }, { f: 20 }),
     colonize: new BtnEvent('Colonize New Planet - Goodbye World, Hello World!', colonize, { f: 20 }),
   }
 }
@@ -206,31 +212,31 @@ const createButtons = () => {
   recruitBtn = events.recruit.el
   eventButtons.push(events.recruit)
   mainButtonsEl.appendChild(recruitBtn)
-  
+
   nutritionBtn = events.nutrition.el
   eventButtons.push(events.nutrition)
   mainButtonsEl.appendChild(nutritionBtn)
-  
+
   toolsBtn = events.tools.el
   eventButtons.push(events.tools)
   mainButtonsEl.appendChild(toolsBtn)
-  
+
   backpacksBtn = events.backpacks.el
   eventButtons.push(events.backpacks)
   mainButtonsEl.appendChild(backpacksBtn)
-  
+
   propagandaBtn = events.propaganda.el
   eventButtons.push(events.propaganda)
   mainButtonsEl.appendChild(propagandaBtn)
-  
+
   upgradeBtn = events.upgrade.el
   eventButtons.push(events.upgrade)
   mainButtonsEl.appendChild(upgradeBtn)
-  
+
   colonizeBtn = events.colonize.el
   eventButtons.push(events.colonize)
   mainButtonsEl.appendChild(colonizeBtn)
-  
+
   // mainButtonsEl.appendChild(nutritionBtn)
   // mainButtonsEl.appendChild(toolsBtn)
   // mainButtonsEl.appendChild(backpacksBtn)
@@ -300,11 +306,15 @@ const createButton = (text, fn, cost) => {
     csts.appendChild(fel)
   }
 
-
   return btn
 }
 
-const updateWorking = () => workingCountEl.innerHTML = `${assignments.farm.length + assignments.mine.length + assignments.labs.length} / ${villagers.length} working`
+const updateWorkingCount = () => workingCountEl.innerHTML = `${assignments.farm.length + assignments.mine.length + assignments.labs.length} / ${villagers.length} working`
+const updateAssignedCount = () => {
+  farmCountEl.innerHTML = assignments.farm.length
+  mineCountEl.innerHTML = assignments.mine.length
+  labsCountEl.innerHTML = assignments.labs.length
+}
 
 const assign = (e) => {
   const [type, action] = e.target.id.split('-')
@@ -331,12 +341,8 @@ const assign = (e) => {
       break
   }
 
-  console.log(type, action)
-  farmCountEl.innerHTML = assignments.farm.length
-  mineCountEl.innerHTML = assignments.mine.length
-  labsCountEl.innerHTML = assignments.labs.length
-
-  updateWorking()
+  updateAssignedCount()
+  updateWorkingCount()
 }
 
 const initJobButtons = () => {
@@ -390,6 +396,8 @@ const init = () => {
   images.mine.src = mineImg
   images.labs.src = labsImg
 
+  updateWorkingCount()
+  updateAssignedCount()
   createButtons()
   initJobButtons()
 }
@@ -406,7 +414,7 @@ const addVillager = (pos = randomIntFromTuple(coords.homeBounds)) => {
   villagers.push(v)
 
   checkEvents()
-  updateWorking()
+  updateWorkingCount()
 
   return v
 }
@@ -415,7 +423,7 @@ const begin = () => {
   addVillager()
   addVillager()
 
-  updateWorking()
+  updateWorkingCount()
 }
 
 function play(time) {
