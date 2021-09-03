@@ -165,7 +165,6 @@ const colonize = () => {
     init()
     begin()
   }, 9000)
-  // }, 500)
 }
 
 const resetEvents = () => {

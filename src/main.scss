@@ -94,14 +94,14 @@ body {
   overflow: hidden;
 }
 
-.background {
+.b {
   z-index: 10;
   width: 100%;
   position: absolute;
   transition: background-color 1s;
 }
 
-.background.variant {
+.b.variant {
   z-index: 15;
 }
 
@@ -135,12 +135,12 @@ body {
   background-color: gray;
 }
 
-.background.top {
+.b.top {
   top: 0px;
   height: 45px;
 }
 
-.background.bottom {
+.b.bottom {
   top: 44px;
   height: 22px;
 }
