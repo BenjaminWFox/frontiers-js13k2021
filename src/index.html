@@ -16,8 +16,8 @@
       <img class="px" src="../src/assets/images/lander.png" />
     </div>
     <div id="game">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px black solid;margin: 0 0 10px;">
-        <h1 style="margin: 0;">HORIZONS</h1>
+      <div class="rW" style="align-items: center; border-bottom: 1px black solid; margin: 0 0 10px;">
+        <h1 style="margin: 0;">FRONTIERS</h1>
         <div id="working" style="font-weight: bold;">0 / 0 working</div>
       </div>
       <div class="matWrapper">
@@ -34,7 +34,7 @@
           <span id="labsAmount">0</span>
         </div>
       </div>
-      <div id="homeRegion" class="region" style="border: 2px solid black;height: 70px; position: relative;">
+      <div id="hR" class="region">
         <div class="b sky top"></div>
         <div class="b grass bottom"></div>
         <div class="l px h1 hs1"></div>
@@ -52,8 +52,8 @@
         <div class="tr2 t35"></div>
         <div class="tr2 t37"></div>
       </div>
-      <div id="" style="display: flex; justify-content: space-between;margin-top:2%;">
-        <div id="travelLeftRegion" class="region" style="border: 2px solid black;width: 49%;height: 70px; position: relative;">
+      <div class="rW">
+        <div id="tLR" class="region" style="width: 49%;">
           <div class="b sky top"></div>
           <div class="b grass bottom"></div>  
           <div class="tr1 t1"></div>
@@ -75,7 +75,7 @@
           <div class="tr1 t19"></div>
           <div class="tr1 t21 trtmp"></div>
           </div>
-        <div id="travelRightRegion" class="region" style="border: 2px solid black;width: 49%;height: 70px; position: relative;">
+        <div id="tRR" class="region" style="width: 49%;">
           <div class="b sky top"></div>
           <div class="b grass bottom"></div>
           <div class="rv rv1">
@@ -105,8 +105,8 @@
           <div class="tr1 t45"></div>
         </div>
       </div>
-      <div style="display: flex; justify-content: space-between;margin-top:2%;">
-        <div id="farmRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;">
+      <div class="rW">
+        <div id="farmRegion" class="region" style="width: 32%;">
           <div class="b sky top"></div>
           <div class="b grass bottom"></div>
           <div class="b full">
@@ -117,7 +117,7 @@
             <div class="px a cr x2" style="bottom: 9px; left: 146px;"></div>
           </div>
         </div>
-        <div id="mineRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;">
+        <div id="mineRegion" class="region" style="width: 32%;">
           <div class="b sky top"></div>
           <div class="b grass bottom"></div>
           <div class="b full">
@@ -130,7 +130,7 @@
             <div class="px a rk x3" style="bottom: 9px; left: 126px;"></div>
           </div>
         </div>
-        <div id="labsRegion" class="region" style="border: 2px solid black;width: 32%; height: 70px; position: relative;">
+        <div id="labsRegion" class="region" style="width: 32%;">
           <div class="b sky top"></div>
           <div class="b grass bottom"></div>
           <div class="b full">
@@ -140,7 +140,7 @@
           </div>
         </div>
       </div>
-      <div style="display: flex; justify-content: space-between;margin-top:2%;text-align: center;margin-bottom: 10px;">
+      <div class="rW" style="margin-bottom: 10px;">
         <div style="width: 32%;">
           <button id="farm-add" class="assignBtn">+</button>
           <span id="farmCount" class="assignedCount">0</span>

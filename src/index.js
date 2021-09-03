@@ -157,9 +157,9 @@ const colonize = () => {
     })
     wr.classList.remove('end')
     wr.classList.remove('adv')
-    $i('travelLeftRegion').classList.remove('clr')
-    $i('travelRightRegion').classList.remove('brg')
-    $i('homeRegion').classList.remove('p1', 'p2', 'p3', 'p4', 'p5', 'p6')
+    $i('tLR').classList.remove('clr')
+    $i('tRR').classList.remove('brg')
+    $i('hR').classList.remove('p1', 'p2', 'p3', 'p4', 'p5', 'p6')
   
     init()
     begin()
@@ -174,13 +174,13 @@ const resetEvents = () => {
     bridge: new BtnEvent('Bridge Rivers - Faster River Travel!', () => {
       settings.travelRight = 1
       events.bridge.el.classList.add('hidden')
-      $i('travelRightRegion').classList.add('brg')
+      $i('tRR').classList.add('brg')
     }, { m: 20, l: 20 },
     () => villagers.length >= 3),
     clear: new BtnEvent('Clear Forests - Faster Forest Travel!', () => {
       settings.travelLeft = 1
       events.clear.el.classList.add('hidden')
-      $i('travelLeftRegion').classList.add('clr')
+      $i('tLR').classList.add('clr')
     }, { f: 20, l: 20 },
     () => villagers.length >= 3),
     nutrition: new BtnEvent('Nutrition & Fitness - Move Faster!', () => {
@@ -356,7 +356,7 @@ const resetAll = () => {
 const init = () => {
   resetSettings()
   resetAll()
-  regions.home = $i('homeRegion')
+  regions.home = $i('hR')
 
   if (settings.hasTraveled && !$i('ldbg')) {
     const lander = $i('ld').cloneNode(true)
@@ -368,8 +368,8 @@ const init = () => {
     regions.home.appendChild(lander)
   }
 
-  regions.travelLeft = $i('travelLeftRegion')
-  regions.travelRight = $i('travelRightRegion')
+  regions.travelLeft = $i('tLR')
+  regions.travelRight = $i('tRR')
   regions.farm = $i('farmRegion')
   regions.mine = $i('mineRegion')
   regions.labs = $i('labsRegion')
@@ -408,7 +408,7 @@ const addVillager = (pos = randomIntFromTuple(coords.homeBounds)) => {
   updateWorkingCount()
 
   if (villagers.length < 25) {
-    $i('homeRegion').classList.add(`p${Math.floor(villagers.length / 2)}`)
+    $i('hR').classList.add(`p${Math.floor(villagers.length / 2)}`)
   }
 
   return v
