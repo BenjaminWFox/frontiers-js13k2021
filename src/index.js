@@ -4,7 +4,7 @@ import { randomIntFromTuple } from './util'
 import farmImg from '../src/assets/images/icons/corn.png'
 import mineImg from '../src/assets/images/icons/rock.png'
 import labsImg from '../src/assets/images/icons/labs.png'
-import { settings } from './settings'
+import { settings, resetSettings } from './settings'
 
 /* eslint-disable */
 //! ZzFXM (v2.0.3) | (C) Keith Clark | MIT | https://github.com/keithclark/ZzFXM
@@ -140,6 +140,15 @@ const colonize = () => {
 
   wr.classList.add('end')
   events.colonize.el.classList.add('hidden')
+  settings.hasTraveled = true
+
+  setTimeout(() => {
+    eventButtons.forEach((btn) => {
+      btn.el.parentNode.removeChild(btn.el)
+    })
+    wr.classList.remove('end')
+    init()
+  }, 1500)
 }
 
 const resetEvents = () => {
@@ -192,12 +201,8 @@ const recruitVillager = () => {
 }
 
 const createButtons = () => {
-  // toolsBtn = createButton('Lighter, Stronger, Faster Tools (Work Faster)', recruitVillager, 0, 30, 20)
-  // backpacksBtn = createButton('Fancy Backpacks (Carry More Stuff)', recruitVillager, 0, 40, 30)
-  // propagandaBtn = createButton('Motivational Propaganta (Even Faster Movement & Work)', recruitVillager, 0, 0, 50)
-  // upgradeBtn = createButton('Advance Society (Everything is Better!)', recruitVillager, 100, 100, 100)
-  // colonizeBtn = createButton('Colonize New Planet (Goodbye World, Hello World)', recruitVillager, 200, 200, 200)
-  
+  eventButtons = []
+
   recruitBtn = events.recruit.el
   eventButtons.push(events.recruit)
   mainButtonsEl.appendChild(recruitBtn)
@@ -348,9 +353,19 @@ const resetAll = () => {
 }
 
 const init = () => {
+  resetSettings()
   resetAll()
-
   regions.home = document.getElementById('homeRegion')
+
+  if (settings.hasTraveled) {
+    const lander = document.getElementById('lander').cloneNode(true)
+
+    lander.classList.remove('space')
+    lander.classList.remove('lander')
+    lander.classList.add('landerbg')
+    regions.home.appendChild(lander)
+  }
+
   regions.travelLeft = document.getElementById('travelLeftRegion')
   regions.travelRight = document.getElementById('travelRightRegion')
   regions.farm = document.getElementById('farmRegion')

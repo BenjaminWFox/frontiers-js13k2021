@@ -1,8 +1,14 @@
-export const defaultSettings = () => ({
-  moveMod: 1,
-  workMod: 0,
-  workSpeed: 250,
-  resourceMod: 0,
-})
+let settings = {
+  hasTraveled: false
+}
 
-export const settings = defaultSettings()
+const resetSettings = () => {
+  settings.moveMod = 1
+  settings.workMod = 0
+  settings.workSpeed = 250
+  settings.resourceMod = 0
+}
+
+resetSettings()
+
+export { settings, resetSettings }
