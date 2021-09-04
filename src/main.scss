@@ -247,28 +247,15 @@ Backgroudn stuff
   transition: opacity .5s;
 }
 
-@keyframes gli {
-  from {
-    box-shadow: inset 0 0 2px -1px #128814;
-  }
-  to {
-    box-shadow: inset 0 0 2px 1px #128814;
-  }
-}
-
 .mB:enabled {
-  animation: gli 1s infinite alternate;
+  box-shadow: inset 0 0 2px 1px #128814;
 }
 
 .mB:disabled {
   opacity: .75;
 }
 
-.aB:hover, .mB:hover {
-  background-color: #eee;
-}
-
-.mB:active {
+.aB:hover, .mB:hover, .mB:active {
   background-color: #eee;
 }
 
