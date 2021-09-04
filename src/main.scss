@@ -11,6 +11,15 @@ body {
   padding: 0 10px;
 }
 
+@keyframes gl {
+  from {
+    box-shadow: 0 0 4px -4px #128814;
+  }
+  to {
+    box-shadow: 0 0 4px 4px #128814;
+  }
+}
+
 .a {
   position: absolute;
 }
@@ -91,6 +100,9 @@ body {
   top: 110vh;
 }
 
+/**
+Backgroudn stuff
+**/
 .bg {
   width: 100%;
   height: 100%;
@@ -222,7 +234,7 @@ body {
 }
 
 .mB {
-  background-color: #eee;
+  background-color: #fff;
   border: 1px black solid;
   padding: 5px;
   margin-bottom: 5px;
@@ -233,6 +245,31 @@ body {
   position: relative;
   opacity: 1;
   transition: opacity .5s;
+}
+
+@keyframes gli {
+  from {
+    box-shadow: inset 0 0 2px -1px #128814;
+  }
+  to {
+    box-shadow: inset 0 0 2px 1px #128814;
+  }
+}
+
+.mB:enabled {
+  animation: gli 1s infinite alternate;
+}
+
+.mB:disabled {
+  opacity: .75;
+}
+
+.aB:hover, .mB:hover {
+  background-color: #eee;
+}
+
+.mB:active {
+  background-color: #eee;
 }
 
 .mB.hidden {

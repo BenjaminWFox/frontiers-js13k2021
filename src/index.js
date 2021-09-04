@@ -66,9 +66,9 @@ const resetAssignments = () => {
 let amounts
 const resetAmounts = () => {
   amounts = {
-    farm: 4000,
-    mine: 4000,
-    labs: 4000,
+    farm: 0,
+    mine: 0,
+    labs: 0,
   }
 }
 let images = {
@@ -80,7 +80,7 @@ const coords = {
   spawn: [100, 400],
   drop: [260, 290],
   job: [60, 116],
-  homeBounds: [0, 550],
+  homeBounds: [0, 520],
   travelBounds: [0, 270],
   jobBounds: [0, 176],
 }
@@ -280,7 +280,7 @@ const createButton = (text, fn, cost) => {
   if (f) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<div class="px ib cr"></div><span class="fCost">: ${f}</span>`
+    fel.innerHTML = `<div class="ib cr"></div><span class="fCost">: ${f}</span>`
 
     csts.appendChild(fel)
   }
@@ -288,7 +288,7 @@ const createButton = (text, fn, cost) => {
   if (m) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<div class="px ib rk"></div><span class="mCost">: ${m}</span>`
+    fel.innerHTML = `<div class="ib rk"></div><span class="mCost">: ${m}</span>`
 
     csts.appendChild(fel)
   }
@@ -296,7 +296,7 @@ const createButton = (text, fn, cost) => {
   if (l) {
     const fel = cst.cloneNode()
 
-    fel.innerHTML = `<div class="px ib lb"></div><span class="lCost">: ${l}</span>`
+    fel.innerHTML = `<div class="ib lb"></div><span class="lCost">: ${l}</span>`
 
     csts.appendChild(fel)
   }
@@ -533,6 +533,15 @@ window.onload = () => {
   }
   `
   document.head.appendChild(st)
+
+  let initialButtonEl = $i('farm-add')
+
+  function removeBtn() {
+    initialButtonEl.style.animation = ""
+    initialButtonEl.removeEventListener('click', removeBtn)
+  }
+  initialButtonEl.addEventListener('click', removeBtn)
+  initialButtonEl.style.animation = 'gl 1s infinite alternate'
   init()
   begin()
   play()
