@@ -375,8 +375,8 @@ const addElements = () => {
   const tlt = [
     [5, 11],
     [240, 6],
-    [30, 28, ,],
-    [225, 20, ,],
+    [30, 28, , ],
+    [225, 20, , ],
     [55, 14],
     [200, 4],
     [210, 14],
@@ -384,11 +384,11 @@ const addElements = () => {
     [150, 20],
     [74, 12],
     [180, 20],
-    [168, 18, ,],
-    [125, 27, ,],
+    [168, 18, , ],
+    [125, 27, , ],
     [40, 8],
-    [50, 29, ,],
-    [100, 20, ,],
+    [50, 29, , ],
+    [100, 20, , ],
     [95, 18],
   ]
   const hrh = [
@@ -572,12 +572,13 @@ window.onload = () => {
     initialButtonEl.style.animation = ''
     initialButtonEl.removeEventListener('click', removeBtn)
   }
-  initialButtonEl.addEventListener('click', removeBtn)
-  initialButtonEl.style.animation = 'gl 1s infinite alternate'
 
   init()
 
   setTimeout(() => {
+    $i('mBs').style.opacity = 1
+    initialButtonEl.addEventListener('click', removeBtn)
+    initialButtonEl.style.animation = 'gl 1s infinite alternate'
     begin()
     play()
   }, 3000)
