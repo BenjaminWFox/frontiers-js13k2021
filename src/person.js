@@ -43,9 +43,11 @@ const HAIR = [
 const createBody = (skintone, tTone, bTone, hTone) => {
   const bodyCanvas = document.createElement('canvas')
   const ctx = bodyCanvas.getContext('2d')
-  const type = randomIntInclusive(0, 1)
+  const type = settings.moreTypes ? randomIntInclusive(0, 1) : 0
   const gen = randomIntInclusive(0, 1)
   const hair = randomIntInclusive(0, 2)
+
+  console.log('Drawing with hair!?', settings.moreTypes)
 
   // head
   ctx.fillStyle = skintone.skin
@@ -61,22 +63,24 @@ const createBody = (skintone, tTone, bTone, hTone) => {
   }
 
   // hair
-  if (hair) {
-    ctx.fillStyle = hTone
-    ctx.beginPath()
-    ctx.moveTo(18, 11)
-    ctx.lineTo(24, 11)
-    ctx.lineTo(18, 17)
-    ctx.fill()
-  }
+  if (settings.moreTypes) {
+    if (hair) {
+      ctx.fillStyle = hTone
+      ctx.beginPath()
+      ctx.moveTo(18, 11)
+      ctx.lineTo(24, 11)
+      ctx.lineTo(18, 17)
+      ctx.fill()
+    }
 
-  if (hair === 1) {
-    ctx.fillRect(19, 10, 5, 1)
-    ctx.fillRect(17, 12, 1, 7)
-  }
+    if (hair === 1) {
+      ctx.fillRect(19, 10, 5, 1)
+      ctx.fillRect(17, 12, 1, 7)
+    }
 
-  if (hair === 2) {
-    ctx.fillRect(16, 11, 2, 13)
+    if (hair === 2) {
+      ctx.fillRect(16, 11, 2, 13)
+    }
   }
 
   // legs

@@ -374,8 +374,8 @@ const addElements = () => {
   const tlt = [
     [5, 11],
     [240, 6],
-    [30, 28, ,],
-    [225, 20, ,],
+    [30, 28, , ],
+    [225, 20, , ],
     [55, 14],
     [200, 4],
     [210, 14],
@@ -383,11 +383,11 @@ const addElements = () => {
     [150, 20],
     [74, 12],
     [180, 20],
-    [168, 18, ,],
-    [125, 27, ,],
+    [168, 18, , ],
+    [125, 27, , ],
     [40, 8],
-    [50, 29, ,],
-    [100, 20, ,],
+    [50, 29, , ],
+    [100, 20, , ],
     [95, 18],
   ]
   const hrh = [
@@ -407,8 +407,8 @@ const addElements = () => {
 
     // 0=1 1=2 2=1 3=2 4=1
     d.classList.add(`tr${i % 2 + 1}`)
-    d.style.left = `${tlt[i][0] }px`
-    d.style.top = `${tlt[i][1] }px`
+    d.style.left = `${tlt[i][0]}px`
+    d.style.top = `${tlt[i][1]}px`
     if (tlt[i].length > 2) {
       d.classList.add('trtmp')
       d.style.zIndex = 600
@@ -421,7 +421,7 @@ const addElements = () => {
     const d = document.createElement('div')
 
     d.classList.add('l', 'px', `h${i}`, `hs${i}`)
-    d.style.left = `${hrh[i][0] }px`
+    d.style.left = `${hrh[i][0]}px`
     // d.style.top = hrh[i][1] + 'px'
     i > 0 ? d.style.opacity = 0 : ''
     regions.home.appendChild(d)
@@ -525,12 +525,23 @@ function play(time) {
 const startMusic = () => {
   document.removeEventListener('click', startMusic)
 
-  player = zzfxP(...zzfxM(...song))
-  player.loop = true
+  // player = zzfxP(...zzfxM(...song))
+  // player.loop = true
 }
 
 window.onload = () => {
   document.addEventListener('click', startMusic)
+  if (document.monetization) {
+    settings.moreTypes = true
+    document.monetization.addEventListener('monetizationstart', function () {
+      for (let i = 0; i < 5; i += 1) {
+        console.log('MONSTART')
+        addResource('farm')
+        addResource('mine')
+        addResource('labs')
+      }
+    })
+  }
 
   const st = document.createElement('style')
 
