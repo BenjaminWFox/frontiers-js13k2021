@@ -171,57 +171,73 @@ const resetEvents = () => {
 
   events = {
     recruit: new BtnEvent(recruitMsg, recruitVillager, { f: 20 }, () => true),
-    bridge: new BtnEvent('Bridge Rivers - Faster River Travel!', () => {
-      settings.travelRight = 1
-      events.bridge.el.classList.add('hidden')
-      regions.travelRight.classList.add('brg')
-    }, { m: 20, l: 20 },
-      () => villagers.length >= 3),
-    clear: new BtnEvent('Clear Forests - Faster Forest Travel!', () => {
-      settings.travelLeft = 1
-      events.clear.el.classList.add('hidden')
-      regions.travelLeft.classList.add('clr')
-    }, { f: 20, l: 20 },
-      () => villagers.length >= 3),
-    nutrition: new BtnEvent('Nutrition & Fitness - Move Faster!', () => {
-      settings.moveMod += .5
-      player.playbackRate.value += .05
-      events.nutrition.el.classList.add('hidden')
-    }, { f: 20, l: 40 },
-      () => villagers.length >= 4),
-    tools: new BtnEvent('Lighter, Stronger Tools - Work Faster!', () => {
-      settings.workMod += 100
-      player.playbackRate.value += .05
-      events.tools.el.classList.add('hidden')
-    }, { m: 30, l: 30 },
-      () => villagers.length >= 6),
-    backpacks: new BtnEvent('Ergonomic Backpacks - Carry More!', () => {
-      settings.resourceMod += 5
-      events.backpacks.el.classList.add('hidden')
-    }, { m: 30, l: 60 },
-      () => villagers.length >= 8),
-    propaganda: new BtnEvent('Motivational Propaganda - Be Better, Comrade!', () => {
-      settings.moveMod += .5
-      settings.workMod += 50
-      player.playbackRate.value += .05
-      events.propaganda.el.classList.add('hidden')
-    }, { f: 50, l: 100 },
-      () => villagers.length >= 10),
-    upgrade: new BtnEvent('Advance Society - More Efficiency! More Progress!', () => {
-      settings.moveMod += .5
-      settings.workMod += 50
-      settings.resourceMod += 5
-      settings.upgraded = true
-      player.playbackRate.value += .05
-      $s('.wrapper').classList.add('adv')
-      events.upgrade.el.classList.add('hidden')
-    },
+    bridge: new BtnEvent(
+      'Bridge Rivers - Faster River Travel!', () => {
+        settings.travelRight = 1
+        events.bridge.el.classList.add('hidden')
+        regions.travelRight.classList.add('brg')
+      }, { m: 20, l: 20 },
+      () => villagers.length >= 3,
+    ),
+    clear: new BtnEvent(
+      'Clear Forests - Faster Forest Travel!', () => {
+        settings.travelLeft = 1
+        events.clear.el.classList.add('hidden')
+        regions.travelLeft.classList.add('clr')
+      }, { f: 20, l: 20 },
+      () => villagers.length >= 3,
+    ),
+    nutrition: new BtnEvent(
+      'Nutrition & Fitness - Move Faster!', () => {
+        settings.moveMod += .5
+        player.playbackRate.value += .05
+        events.nutrition.el.classList.add('hidden')
+      }, { f: 20, l: 40 },
+      () => villagers.length >= 4,
+    ),
+    tools: new BtnEvent(
+      'Lighter, Stronger Tools - Work Faster!', () => {
+        settings.workMod += 100
+        player.playbackRate.value += .05
+        events.tools.el.classList.add('hidden')
+      }, { m: 30, l: 30 },
+      () => villagers.length >= 6,
+    ),
+    backpacks: new BtnEvent(
+      'Ergonomic Backpacks - Carry More!', () => {
+        settings.resourceMod += 5
+        events.backpacks.el.classList.add('hidden')
+      }, { m: 30, l: 60 },
+      () => villagers.length >= 8,
+    ),
+    propaganda: new BtnEvent(
+      'Motivational Propaganda - Be Better, Comrade!', () => {
+        settings.moveMod += .5
+        settings.workMod += 50
+        player.playbackRate.value += .05
+        events.propaganda.el.classList.add('hidden')
+      }, { f: 50, l: 100 },
+      () => villagers.length >= 10,
+    ),
+    upgrade: new BtnEvent(
+      'Advance Society - More Efficiency! More Progress!', () => {
+        settings.moveMod += .5
+        settings.workMod += 50
+        settings.resourceMod += 5
+        settings.upgraded = true
+        player.playbackRate.value += .05
+        $s('.wrapper').classList.add('adv')
+        events.upgrade.el.classList.add('hidden')
+      },
       { f: 100, m: 100, l: 100 },
-      () => settings.moveMod >= 2 && villagers.length >= 12),
-    colonize: new BtnEvent('Colonize New Planet - Goodbye World, Hello World!',
+      () => settings.moveMod >= 2 && villagers.length >= 12,
+    ),
+    colonize: new BtnEvent(
+      'Colonize New Planet - Goodbye World, Hello World!',
       colonize,
       { f: 200, m: 200, l: 200 },
-      () => settings.upgraded && villagers.length >= 14),
+      () => settings.upgraded && villagers.length >= 14,
+    ),
     // () => villagers.length >= 2),
   }
 }
@@ -379,7 +395,7 @@ const addElements = () => {
     [94], // , 0
     [350], // , 0
     [225], // , 0
-    [480,], //  -1
+    [480], //  -1
     [145], // , 4
     [405], // , 3
   ]
@@ -391,8 +407,8 @@ const addElements = () => {
 
     // 0=1 1=2 2=1 3=2 4=1
     d.classList.add(`tr${i % 2 + 1}`)
-    d.style.left = tlt[i][0] + 'px'
-    d.style.top = tlt[i][1] + 'px'
+    d.style.left = `${tlt[i][0] }px`
+    d.style.top = `${tlt[i][1] }px`
     if (tlt[i].length > 2) {
       d.classList.add('trtmp')
       d.style.zIndex = 600
@@ -405,7 +421,7 @@ const addElements = () => {
     const d = document.createElement('div')
 
     d.classList.add('l', 'px', `h${i}`, `hs${i}`)
-    d.style.left = hrh[i][0] + 'px'
+    d.style.left = `${hrh[i][0] }px`
     // d.style.top = hrh[i][1] + 'px'
     i > 0 ? d.style.opacity = 0 : ''
     regions.home.appendChild(d)
@@ -537,7 +553,7 @@ window.onload = () => {
   let initialButtonEl = $i('farm-add')
 
   function removeBtn() {
-    initialButtonEl.style.animation = ""
+    initialButtonEl.style.animation = ''
     initialButtonEl.removeEventListener('click', removeBtn)
   }
   initialButtonEl.addEventListener('click', removeBtn)

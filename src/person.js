@@ -33,17 +33,51 @@ const BOTTOMS = [
   '#77cb6b',
 ]
 
-const createBody = (skintone, tTone, bTone) => {
+const HAIR = [
+  '#66201b',
+  '#996f03',
+  '#737373',
+  '#030716',
+]
+
+const createBody = (skintone, tTone, bTone, hTone) => {
   const bodyCanvas = document.createElement('canvas')
   const ctx = bodyCanvas.getContext('2d')
+  const type = randomIntInclusive(0, 1)
+  const gen = randomIntInclusive(0, 1)
+  const hair = randomIntInclusive(0, 2)
 
   // head
   ctx.fillStyle = skintone.skin
+
   ctx.fillRect(18, 11, 8, 8)
 
   // torso
   ctx.fillStyle = tTone.main
-  ctx.fillRect(17, 19, 10, 12)
+  ctx.fillRect(18 - type, 19, 8 + (type * 2), 12)
+
+  if (gen) {
+    ctx.fillRect(26 + type, 21, 1, 5)
+  }
+
+  // hair
+  if (hair) {
+    ctx.fillStyle = hTone
+    ctx.beginPath()
+    ctx.moveTo(18, 11)
+    ctx.lineTo(24, 11)
+    ctx.lineTo(18, 17)
+    ctx.fill()
+  }
+
+  if (hair === 1) {
+    ctx.fillRect(19, 10, 5, 1)
+    ctx.fillRect(17, 12, 1, 7)
+  }
+
+  if (hair === 2) {
+    ctx.fillRect(16, 11, 2, 13)
+  }
 
   // legs
   ctx.fillStyle = bTone
@@ -52,9 +86,11 @@ const createBody = (skintone, tTone, bTone) => {
   // eyes
   ctx.fillStyle = skintone.eye
   ctx.fillRect(23, 13, 2, 2)
-  // pulil
+
+  // pupil
   ctx.fillStyle = '#ffffff'
   ctx.fillRect(24, 14, 1, 1)
+
   // mouth
   ctx.fillStyle = skintone.mouth
   ctx.fillRect(24, 17, 2, 1)
@@ -213,6 +249,7 @@ export function Person() {
   this.skintone = SKIN_TONES[randomIntInclusive(0, SKIN_TONES.length - 1)]
   this.tTone = TOPS[randomIntInclusive(0, TOPS.length - 1)]
   this.bTone = BOTTOMS[randomIntInclusive(0, BOTTOMS.length - 1)]
+  this.hTone = HAIR[randomIntInclusive(0, HAIR.length - 1)]
   this.armPos = 'd'
   this.faceDir = 'r'
 
@@ -290,7 +327,7 @@ export function Person() {
     this.addResource = worldAddResource
     this.resourceImages = worldResourceImages
 
-    this.body = createBody(this.skintone, this.tTone, this.bTone)
+    this.body = createBody(this.skintone, this.tTone, this.bTone, this.hTone)
     this.feet = createFeet()
     this.arms = {
       u: createArms('u', this.skintone, this.tTone),
