@@ -1,5 +1,6 @@
 let settings = {
-  hasTraveled: false
+  hasTraveled: false,
+  moreTypes: false,
 }
 
 const resetSettings = () => {

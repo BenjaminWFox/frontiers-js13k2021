@@ -28,6 +28,7 @@ const zzfxR = 44100
 
 // zzfxX - the common audio context
 const zzfxX = new (window.AudioContext || webkitAudioContext);
+
 //! ZzFXM (v2.0.3) | (C) Keith Clark | MIT | https://github.com/keithclark/ZzFXM
 const zzfxM = (n, f, t, e = 125) => { let l, o, z, r, g, h, x, a, u, c, d, i, m, p, G, M = 0, R = [], b = [], j = [], k = 0, q = 0, s = 1, v = {}, w = zzfxR / e * 60 >> 2; for (; s; k++)R = [s = a = d = m = 0], t.map((e, d) => { for (x = f[e][k] || [0, 0, 0], s |= !!f[e][k], G = m + (f[e][0].length - 2 - !a) * w, p = d == t.length - 1, o = 2, r = m; o < x.length + p; a = ++o) { for (g = x[o], u = o == x.length + p - 1 && p || c != (x[0] || 0) | g | 0, z = 0; z < w && a; z++ > w - 99 && u ? i += (i < 1) / 99 : 0)h = (1 - i) * R[M++] / 2 || 0, b[r] = (b[r] || 0) - h * q + h, j[r] = (j[r++] || 0) + h * q + h; g && (i = g % 1, q = x[1] || 0, (g |= 0) && (R = v[[c = x[M = 0] || 0, g]] = v[[c, g]] || (l = [...n[c]], l[2] *= 2 ** ((g - 12) / 12), g > 0 ? zzfxG(...l) : []))) } m = G }); return [b, j] }
 
@@ -374,8 +375,8 @@ const addElements = () => {
   const tlt = [
     [5, 11],
     [240, 6],
-    [30, 28, ,],
-    [225, 20, ,],
+    [30, 28, , ],
+    [225, 20, , ],
     [55, 14],
     [200, 4],
     [210, 14],
@@ -383,11 +384,11 @@ const addElements = () => {
     [150, 20],
     [74, 12],
     [180, 20],
-    [168, 18, ,],
-    [125, 27, ,],
+    [168, 18, , ],
+    [125, 27, , ],
     [40, 8],
-    [50, 29, ,],
-    [100, 20, ,],
+    [50, 29, , ],
+    [100, 20, , ],
     [95, 18],
   ]
   const hrh = [
@@ -407,8 +408,8 @@ const addElements = () => {
 
     // 0=1 1=2 2=1 3=2 4=1
     d.classList.add(`tr${i % 2 + 1}`)
-    d.style.left = `${tlt[i][0] }px`
-    d.style.top = `${tlt[i][1] }px`
+    d.style.left = `${tlt[i][0]}px`
+    d.style.top = `${tlt[i][1]}px`
     if (tlt[i].length > 2) {
       d.classList.add('trtmp')
       d.style.zIndex = 600
@@ -421,7 +422,7 @@ const addElements = () => {
     const d = document.createElement('div')
 
     d.classList.add('l', 'px', `h${i}`, `hs${i}`)
-    d.style.left = `${hrh[i][0] }px`
+    d.style.left = `${hrh[i][0]}px`
     // d.style.top = hrh[i][1] + 'px'
     i > 0 ? d.style.opacity = 0 : ''
     regions.home.appendChild(d)
@@ -531,6 +532,21 @@ const startMusic = () => {
 
 window.onload = () => {
   document.addEventListener('click', startMusic)
+  if (document.monetization) {
+
+    document.monetization.addEventListener('monetizationstart', function () {
+      settings.moreTypes = true
+      for (let i = 0; i < 5; i += 1) {
+        addResource('farm')
+        addResource('mine')
+        addResource('labs')
+      }
+
+      villagers.forEach((v) => v.getBody())
+      $i('coi').style.opacity = 1
+    })
+
+  }
 
   const st = document.createElement('style')
 
@@ -556,9 +572,14 @@ window.onload = () => {
     initialButtonEl.style.animation = ''
     initialButtonEl.removeEventListener('click', removeBtn)
   }
-  initialButtonEl.addEventListener('click', removeBtn)
-  initialButtonEl.style.animation = 'gl 1s infinite alternate'
+
   init()
-  begin()
-  play()
+
+  setTimeout(() => {
+    $i('mBs').style.opacity = 1
+    initialButtonEl.addEventListener('click', removeBtn)
+    initialButtonEl.style.animation = 'gl 1s infinite alternate'
+    begin()
+    play()
+  }, 3000)
 }

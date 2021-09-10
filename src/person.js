@@ -43,8 +43,8 @@ const HAIR = [
 const createBody = (skintone, tTone, bTone, hTone) => {
   const bodyCanvas = document.createElement('canvas')
   const ctx = bodyCanvas.getContext('2d')
-  const type = randomIntInclusive(0, 1)
-  const gen = randomIntInclusive(0, 1)
+  const type = settings.moreTypes ? randomIntInclusive(0, 1) : 0
+  const gen = settings.moreTypes ? randomIntInclusive(0, 1) : 0
   const hair = randomIntInclusive(0, 2)
 
   // head
@@ -61,22 +61,24 @@ const createBody = (skintone, tTone, bTone, hTone) => {
   }
 
   // hair
-  if (hair) {
-    ctx.fillStyle = hTone
-    ctx.beginPath()
-    ctx.moveTo(18, 11)
-    ctx.lineTo(24, 11)
-    ctx.lineTo(18, 17)
-    ctx.fill()
-  }
+  if (settings.moreTypes) {
+    if (hair) {
+      ctx.fillStyle = hTone
+      ctx.beginPath()
+      ctx.moveTo(18, 11)
+      ctx.lineTo(24, 11)
+      ctx.lineTo(18, 17)
+      ctx.fill()
+    }
 
-  if (hair === 1) {
-    ctx.fillRect(19, 10, 5, 1)
-    ctx.fillRect(17, 12, 1, 7)
-  }
+    if (hair === 1) {
+      ctx.fillRect(19, 10, 5, 1)
+      ctx.fillRect(17, 12, 1, 7)
+    }
 
-  if (hair === 2) {
-    ctx.fillRect(16, 11, 2, 13)
+    if (hair === 2) {
+      ctx.fillRect(16, 11, 2, 13)
+    }
   }
 
   // legs
@@ -320,6 +322,8 @@ export function Person() {
     this.crouching ? this.context.drawImage(this.feet, x, 38) : this.context.drawImage(this.feet, x, 40)
   }
 
+  this.getBody = () => createBody(this.skintone, this.tTone, this.bTone, this.hTone)
+
   this.init = (worldCoordsObject, worldRegionsObject, worldAddResource, worldResourceImages) => {
     this.coords = worldCoordsObject
     this.regions = worldRegionsObject
@@ -327,7 +331,7 @@ export function Person() {
     this.addResource = worldAddResource
     this.resourceImages = worldResourceImages
 
-    this.body = createBody(this.skintone, this.tTone, this.bTone, this.hTone)
+    this.body = this.getBody()
     this.feet = createFeet()
     this.arms = {
       u: createArms('u', this.skintone, this.tTone),
