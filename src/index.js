@@ -375,8 +375,8 @@ const addElements = () => {
   const tlt = [
     [5, 11],
     [240, 6],
-    [30, 28, , ],
-    [225, 20, , ],
+    [30, 28, ,],
+    [225, 20, ,],
     [55, 14],
     [200, 4],
     [210, 14],
@@ -384,11 +384,11 @@ const addElements = () => {
     [150, 20],
     [74, 12],
     [180, 20],
-    [168, 18, , ],
-    [125, 27, , ],
+    [168, 18, ,],
+    [125, 27, ,],
     [40, 8],
-    [50, 29, , ],
-    [100, 20, , ],
+    [50, 29, ,],
+    [100, 20, ,],
     [95, 18],
   ]
   const hrh = [
@@ -533,15 +533,19 @@ const startMusic = () => {
 window.onload = () => {
   document.addEventListener('click', startMusic)
   if (document.monetization) {
-    settings.moreTypes = true
+
     document.monetization.addEventListener('monetizationstart', function () {
+      settings.moreTypes = true
       for (let i = 0; i < 5; i += 1) {
-        console.log('MONSTART')
         addResource('farm')
         addResource('mine')
         addResource('labs')
       }
+
+      villagers.forEach((v) => v.getBody())
+      $i('coi').style.opacity = 1
     })
+
   }
 
   const st = document.createElement('style')
@@ -570,7 +574,11 @@ window.onload = () => {
   }
   initialButtonEl.addEventListener('click', removeBtn)
   initialButtonEl.style.animation = 'gl 1s infinite alternate'
+
   init()
-  begin()
-  play()
+
+  setTimeout(() => {
+    begin()
+    play()
+  }, 3000)
 }

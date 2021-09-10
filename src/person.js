@@ -44,10 +44,8 @@ const createBody = (skintone, tTone, bTone, hTone) => {
   const bodyCanvas = document.createElement('canvas')
   const ctx = bodyCanvas.getContext('2d')
   const type = settings.moreTypes ? randomIntInclusive(0, 1) : 0
-  const gen = randomIntInclusive(0, 1)
+  const gen = settings.moreTypes ? randomIntInclusive(0, 1) : 0
   const hair = randomIntInclusive(0, 2)
-
-  console.log('Drawing with hair!?', settings.moreTypes)
 
   // head
   ctx.fillStyle = skintone.skin
@@ -324,6 +322,8 @@ export function Person() {
     this.crouching ? this.context.drawImage(this.feet, x, 38) : this.context.drawImage(this.feet, x, 40)
   }
 
+  this.getBody = () => createBody(this.skintone, this.tTone, this.bTone, this.hTone)
+
   this.init = (worldCoordsObject, worldRegionsObject, worldAddResource, worldResourceImages) => {
     this.coords = worldCoordsObject
     this.regions = worldRegionsObject
@@ -331,7 +331,7 @@ export function Person() {
     this.addResource = worldAddResource
     this.resourceImages = worldResourceImages
 
-    this.body = createBody(this.skintone, this.tTone, this.bTone, this.hTone)
+    this.body = this.getBody()
     this.feet = createFeet()
     this.arms = {
       u: createArms('u', this.skintone, this.tTone),
