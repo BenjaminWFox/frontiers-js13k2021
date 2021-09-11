@@ -67,9 +67,9 @@ const resetAssignments = () => {
 let amounts
 const resetAmounts = () => {
   amounts = {
-    farm: 10000,
-    mine: 10000,
-    labs: 10000,
+    farm: 0,
+    mine: 0,
+    labs: 0,
   }
 }
 let images = {
