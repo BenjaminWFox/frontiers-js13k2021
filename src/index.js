@@ -162,6 +162,7 @@ const colonize = () => {
     regions.travelRight.classList.remove('brg')
     $i('hR').classList.remove('p1', 'p2', 'p3', 'p4', 'p5', 'p6')
 
+    $i('colonized').innerHTML = Number($i('colonized').innerHTML) + 1
     init()
     begin()
   }, 9000)
@@ -205,7 +206,7 @@ const resetEvents = () => {
       () => villagers.length >= 6,
     ),
     backpacks: new BtnEvent(
-      'Ergonomic Backpacks - Carry More!', () => {
+      'Ergonomic Headgear - Carry More!', () => {
         settings.resourceMod += 5
         events.backpacks.el.classList.add('hidden')
       }, { m: 30, l: 60 },
@@ -375,8 +376,8 @@ const addElements = () => {
   const tlt = [
     [5, 11],
     [240, 6],
-    [30, 28, , ],
-    [225, 20, , ],
+    [30, 28, ,],
+    [225, 20, ,],
     [55, 14],
     [200, 4],
     [210, 14],
@@ -384,11 +385,11 @@ const addElements = () => {
     [150, 20],
     [74, 12],
     [180, 20],
-    [168, 18, , ],
-    [125, 27, , ],
+    [168, 18, ,],
+    [125, 27, ,],
     [40, 8],
-    [50, 29, , ],
-    [100, 20, , ],
+    [50, 29, ,],
+    [100, 20, ,],
     [95, 18],
   ]
   const hrh = [
