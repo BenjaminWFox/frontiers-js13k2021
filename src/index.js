@@ -67,9 +67,9 @@ const resetAssignments = () => {
 let amounts
 const resetAmounts = () => {
   amounts = {
-    farm: 0,
-    mine: 0,
-    labs: 0,
+    farm: 10000,
+    mine: 10000,
+    labs: 10000,
   }
 }
 let images = {
@@ -162,7 +162,7 @@ const colonize = () => {
     regions.travelRight.classList.remove('brg')
     $i('hR').classList.remove('p1', 'p2', 'p3', 'p4', 'p5', 'p6')
 
-    $i('colonized').innerHTML = Number($i('colonized').innerHTML) + 1
+    $i('inhabited').innerHTML = Number($i('inhabited').innerHTML) + 1
     init()
     begin()
   }, 9000)
@@ -372,7 +372,7 @@ const resetAll = () => {
 }
 
 const addElements = () => {
-  /* eslint-disable no-sparse-arrays */
+  /* eslint-disable no-sparse-arrays, comma-spacing */
   const tlt = [
     [5, 11],
     [240, 6],
@@ -402,7 +402,7 @@ const addElements = () => {
     [405], // , 3
   ]
   // const hrt = []
-  /* eslint-enable no-sparse-arrays */
+  /* eslint-enable no-sparse-arrays, comma-spacing */
 
   for (let i = 0; i < tlt.length; i++) {
     const d = document.createElement('div')
