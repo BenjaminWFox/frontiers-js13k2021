@@ -9,6 +9,7 @@ body {
   background-color: #fff;
   margin: 0;
   padding: 0 10px;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 @keyframes gl {
@@ -254,6 +255,7 @@ Backgroudn stuff
   position: relative;
   opacity: 1;
   transition: opacity .5s;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .mB:enabled {
@@ -296,7 +298,7 @@ HOUSE STUFF:
   transition: opacity 1s, background-image 1s, top 1s;
   width: 54px;
   height: 49px;
-  background-image: url(../src/assets/images/housesm.png);
+  background-image: url(../src/assets/images/house.png);
   background-size: contain;
 }
 .adv .l {
