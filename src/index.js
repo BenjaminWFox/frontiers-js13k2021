@@ -575,15 +575,17 @@ window.onload = () => {
   if (document.monetization) {
 
     document.monetization.addEventListener('monetizationstart', function () {
-      settings.moreTypes = true
-      for (let i = 0; i < 5; i += 1) {
-        addResource('farm')
-        addResource('mine')
-        addResource('labs')
-      }
+      if (!settings.moreTypes) {
+        settings.moreTypes = true
+        for (let i = 0; i < 5; i += 1) {
+          addResource('farm')
+          addResource('mine')
+          addResource('labs')
+        }
 
-      villagers.forEach((v) => v.getBody())
-      $i('coi').style.opacity = 1
+        villagers.forEach((v) => v.getBody())
+        $i('coi').style.opacity = 1
+      }
     })
 
   }
