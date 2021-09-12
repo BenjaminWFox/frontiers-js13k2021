@@ -72,7 +72,7 @@ body {
   position: absolute;
   transition: top 7s;
   top: 110vh;
-  left: 350px;
+  left: 66%;
   width: 100px;
 }
 
@@ -80,7 +80,7 @@ body {
   position: absolute;
   transition: top 11s;
   top: -200vh;
-  left: 140px;
+  left: 25%;
   width: 50px;
 }
 
@@ -199,6 +199,15 @@ Backgroudn stuff
   line-height: 1.125rem;
   text-shadow: 1px 1px #ccc;
   cursor: pointer;
+}
+
+@media (max-width: 450px) {
+  .aB {
+    width: 35px;
+  }
+  .aC {
+    margin: 0 5px;
+  }
 }
 
 .aB:active {

@@ -78,12 +78,12 @@ let images = {
   labs: new Image(),
 }
 const coords = {
-  spawn: [100, 400],
-  drop: [260, 290],
-  job: [60, 116],
-  homeBounds: [0, 520],
-  travelBounds: [0, 270],
-  jobBounds: [0, 176],
+  spawn: [],
+  drop: [],
+  job: [],
+  homeBounds: [],
+  travelBounds: [],
+  jobBounds: [],
 }
 const regions = {
   home: '',
@@ -280,7 +280,7 @@ const checkEvents = () => {
     btn.checkDisplay()
   })
 
-  if (amounts.farm >= 20 && !settings.firstPress) {
+  if (amounts.farm >= 20 && !settings.firstPress && $i('recruitBtn')) {
     $i('recruitBtn').style.animation = 'gl 1s infinite alternate'
   }
 }
@@ -384,13 +384,13 @@ const resetAll = () => {
 const addElements = () => {
   /* eslint-disable no-sparse-arrays, comma-spacing */
   const tlt = [
-    [5, 11],
-    [240, 6],
-    [30, 28, ,],
-    [225, 20, ,],
+    [-2, 11],
+    [245, 6],
+    [16, 28, ,],
+    [230, 20, ,],
     [55, 14],
     [200, 4],
-    [210, 14],
+    [215, 14],
     [140, 4],
     [150, 20],
     [74, 12],
@@ -541,8 +541,37 @@ const startMusic = () => {
   player.loop = true
 }
 
+const adjustCoords = () => {
+  /* original coordinates, fixed
+  const coords = {
+    spawn: [100, 400],
+    homeBounds: [0, 520],
+    drop: [100, 400],
+    job: [60, 116],
+    travelBounds: [0, 270],
+    jobBounds: [0, 176],
+  }
+  */
+
+  const hR = $i('hR').offsetWidth
+  const tR = $i('tLR').offsetWidth
+  const jB = $i('fR').offsetWidth
+
+  coords.spawn = [(hR * .2), (hR * .8)]
+  coords.drop = coords.spawn
+  coords.homeBounds = [0, hR - 30]
+  coords.travelBounds = [0, tR]
+  coords.jobBounds = [0, jB]
+  coords.job = [(jB * .35), (jB * .65)]
+
+  console.log(coords)
+}
+
 window.onload = () => {
+  window.addEventListener('resize', adjustCoords)
   document.addEventListener('click', startMusic)
+  adjustCoords()
+
   if (document.monetization) {
 
     document.monetization.addEventListener('monetizationstart', function () {
