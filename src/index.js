@@ -253,6 +253,10 @@ const updateResources = () => {
 }
 
 const recruitVillager = () => {
+  if (!settings.firstPress) {
+    $i('recruitBtn').style.animation = 'none'
+    settings.firstPress = true
+  }
   events.recruit.cost.f = Math.round(events.recruit.cost.f * RECRUIT_MOD)
   events.recruit.el.querySelector('.fCost').innerHTML = `: ${events.recruit.cost.f}`
   updateResources()
@@ -266,6 +270,8 @@ const createButtons = () => {
     eventButtons.push(v)
     mainButtonsEl.appendChild(v.el)
   })
+  eventButtons[0].el.id = 'recruitBtn'
+
 }
 
 const checkEvents = () => {
@@ -273,6 +279,10 @@ const checkEvents = () => {
     btn.checkEnabled()
     btn.checkDisplay()
   })
+
+  if (amounts.farm >= 20 && !settings.firstPress) {
+    $i('recruitBtn').style.animation = 'gl 1s infinite alternate'
+  }
 }
 
 const addResource = (r) => {
@@ -580,6 +590,7 @@ window.onload = () => {
     $i('mBs').style.opacity = 1
     initialButtonEl.addEventListener('click', removeBtn)
     initialButtonEl.style.animation = 'gl 1s infinite alternate'
+
     begin()
     play()
   }, 3000)

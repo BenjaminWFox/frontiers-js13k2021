@@ -1,6 +1,7 @@
 let settings = {
   hasTraveled: false,
   moreTypes: false,
+  firstPress: false,
 }
 
 const resetSettings = () => {
