@@ -1,4 +1,4 @@
-## Webpack Base for js13kGames
+## Frontiers | A Tiny JavaScript Game for JS13K Games 2021
 
 ### Getting started
 

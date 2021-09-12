@@ -1,0 +1,1 @@
+"Those who forever set their sights on the horizon will never find a final frontier." - anonymous
