@@ -254,9 +254,10 @@ Backgroudn stuff
 .mB:disabled {
   opacity: .75;
   background-color: #ccc;
+  cursor: unset;
 }
 
-.aB:hover, .mB:hover, .mB:active {
+.aB:hover, .mB:hover:not(:disabled), .mB:active {
   background-color: #eee;
 }
 
